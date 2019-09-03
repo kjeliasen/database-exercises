@@ -104,9 +104,16 @@ The Wall
 	/*
 	All the albums with a genre of "Rock". Why do these query results not include albums with a genre of "Hard rock" or "Progressive rock"?
 	*/
-	SELECT name
-	FROM albums
-	WHERE genre = 'Rock';
+	SELECT 
+		name, 
+		genre
+	FROM 
+		albums
+	WHERE 
+		genre 
+			= 'Rock'
+			-- like '%Rock'
+	;
 	/*
 Sgt. Pepper's Lonely Hearts Club Band
 1
