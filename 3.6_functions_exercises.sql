@@ -40,7 +40,13 @@ Convert the names produced in your last query to all uppercase.
 			last_name like 'E%e') FN
 	;
 	/*
-
+RAMZI ERDE
+MAGDALENA ELDRIDGE
+SERAP ETALLE
+MANG ERIE
+BERNT ERIE
+FALGUNI ERIE
+..a
 */
 
 /*
