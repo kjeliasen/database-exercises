@@ -14,15 +14,16 @@ Update your queries for employees whose names start and end with 'E'. Use concat
 	FROM 
 		employees
 	WHERE 
-		last_name like 'E%e'
+		CONCAT(first_name,' ',last_name)  like 'E%e'
 		;
 	/*
-Ramzi Erde
-Magdalena Eldridge
-Serap Etalle
-Mang Erie
-Bernt Erie
-Falguni Erie
+Eckart Debuse
+Elliott Cheshire
+Ebru Foote
+Elliott Benveniste
+Etsuo Tsukune
+Ekawit Puppe
+Elrique Foote
 ...
 */
 
@@ -35,18 +36,20 @@ Convert the names produced in your last query to all uppercase.
 		(SELECT 
 			CONCAT(first_name,' ',last_name) full_name
 		FROM 
-			employees
-		WHERE 
-			last_name like 'E%e') FN
+			employees) FN
+	
+	WHERE 
+		full_name like 'E%e'
 	;
 	/*
-RAMZI ERDE
-MAGDALENA ELDRIDGE
-SERAP ETALLE
-MANG ERIE
-BERNT ERIE
-FALGUNI ERIE
-..a
+ECKART DEBUSE
+ELLIOTT CHESHIRE
+EBRU FOOTE
+ELLIOTT BENVENISTE
+ETSUO TSUKUNE
+EKAWIT PUPPE
+ELRIQUE FOOTE
+...
 */
 
 /*

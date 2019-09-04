@@ -103,7 +103,23 @@ Qiwen
 
 /*
 Add a COUNT() to your results and use ORDER BY to make it easier to find employees whose unusual name is shared with others.
+	*/
+	SELECT 
+		last_name
+		,COUNT(*) Recs
+	FROM
+		employees
+	WHERE
+		last_name LIKE '%q%'
+		AND
+		last_name NOT LIKE '%qu%'
+	GROUP BY
+		last_name
+	;
+	/*
+*/
 
+/*
 Update your query for 'Irena', 'Vidya', or 'Maya'. Use COUNT(*) and GROUP BY to find the number of employees for each gender with those names. Your results should be:
 
 
