@@ -104,9 +104,33 @@ Find all the current department managers that are female.
 | Hilary     | Kambil     |
 +------------+------------+
 	*/
+	SELECT
+		e.first_name
+		,e.last_name
+	FROM
+		employees e
+	JOIN
+		(SELECT
+			dm.dept_no
+			,CONCAT(e.first_name,' ',e.last_name) dept_mgr
+			,e.gender
+			,e.emp_no
+		FROM
+			employees e
+		JOIN
+			dept_manager dm
+			ON e.emp_no = dm.emp_no
+			AND dm.to_date > NOW()
+			) dm
+		ON dm.emp_no = e.emp_no
+	WHERE
+		dm.gender = 'F'
 	;
 	/*
-
+Isamu	Legleitner
+Karsten	Sigstam
+Leon	DasSarma
+Hilary	Kambil
 */
 
 /*
@@ -125,6 +149,27 @@ Find all the employees that currently have a higher than average salary.
 | Tzvetan    | Zielinski | 88070  |
 +------------+-----------+--------+
 	*/
+	SELECT
+		e.first_name
+		,e.last_name
+		,s.salary
+		,avgs.AvgSal
+	FROM
+		employees e
+	JOIN
+		salaries s
+		ON e.emp_no = s.emp_no
+		AND s.to_date > NOW()
+	JOIN
+		(SELECT
+			AVG(salary) AvgSal
+		FROM
+			salaries
+		WHERE
+			to_date > NOW()
+		) avgs
+	WHERE
+		s.salary > avgs.AvgSal
 	;
 	/*
 
