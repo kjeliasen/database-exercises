@@ -131,11 +131,10 @@ Using the example in the Associative Table Joins section as a guide, write a que
 	JOIN
 		dept_manager dm
 		ON e.emp_no = dm.emp_no
+		AND dm.to_date>NOW()
 	JOIN
 		departments d
 		ON dm.dept_no = d.dept_no
-	WHERE
-		dm.to_date > NOW()
 	ORDER BY d.dept_name
 	;
 	/*
@@ -169,12 +168,12 @@ Research        | Hilary Kambil
 	JOIN
 		dept_manager dm
 		ON e.emp_no = dm.emp_no
+		AND dm.to_date > NOW()
 	JOIN
 		departments d
 		ON dm.dept_no = d.dept_no
 	WHERE
-		dm.to_date > NOW()
-		AND e.gender = 'F'
+		e.gender = 'F'
 	ORDER BY d.dept_name
 	;
 	/*
@@ -211,13 +210,13 @@ Technique Leader   |   241
 	JOIN
 		titles t
 		ON e.emp_no = t.emp_no
+		AND t.to_date > CURDATE()
 	JOIN
 		dept_emp de
 		ON e.emp_no = de.emp_no
+		AND de.to_date > CURDATE()
 	WHERE 
 		de.dept_no = 'd009'
-		and de.to_date > CURDATE()
-		and t.to_date > CURDATE()
 	GROUP BY
 		t.title
 	;
@@ -252,14 +251,13 @@ Sales              | Hauke Zhang       | 101987
 	JOIN
 		dept_manager dm
 		ON e.emp_no = dm.emp_no
+		AND dm.to_date > NOW()
 	JOIN
 		departments d
 		ON dm.dept_no = d.dept_no
 	JOIN
 		salaries s
 		ON e.emp_no = s.emp_no
-	WHERE
-		dm.to_date > NOW()
 		AND s.to_date > NOW()
 	ORDER BY d.dept_name
 	;
@@ -302,11 +300,10 @@ Find the number of employees in each department.
 	JOIN
 		dept_emp de
 		ON e.emp_no = de.emp_no
+		AND de.to_date > NOW()
 	JOIN
 		departments d
 		ON de.dept_no = d.dept_no
-	WHERE
-		de.to_date > NOW()
 	GROUP BY
 		d.dept_no
 		,d.dept_name
@@ -344,14 +341,13 @@ Which department has the highest average salary?
 	JOIN
 		dept_emp de
 		ON e.emp_no = de.emp_no
+		AND de.to_date > NOW()
 	JOIN
 		departments d
 		ON de.dept_no = d.dept_no
 	JOIN
 		salaries s
 		ON e.emp_no = s.emp_no
-	WHERE
-		de.to_date > NOW()
 		AND s.to_date > NOW()
 	GROUP BY
 		d.dept_name
@@ -383,16 +379,16 @@ Who is the highest paid employee in the Marketing department?
 	JOIN
 		dept_emp de
 		ON e.emp_no = de.emp_no
+		AND de.to_date > NOW()
 	JOIN
 		departments d
 		ON de.dept_no = d.dept_no
 	JOIN
 		salaries s
 		ON e.emp_no = s.emp_no
-	WHERE
-		de.to_date > NOW()
 		AND s.to_date > NOW()
-		AND d.dept_no = 'd001'
+	WHERE
+		d.dept_no = 'd001'
 	ORDER BY 
 		Salary DESC
 	LIMIT 1
@@ -421,14 +417,13 @@ Which current department manager has the highest salary?
 	JOIN
 		dept_manager dm
 		ON e.emp_no = dm.emp_no
+		AND dm.to_date > NOW()
 	JOIN
 		departments d
 		ON dm.dept_no = d.dept_no
 	JOIN
 		salaries s
 		ON e.emp_no = s.emp_no
-	WHERE
-		dm.to_date > NOW()
 		AND s.to_date > NOW()
 	ORDER BY 
 		s.salary desc
@@ -459,6 +454,7 @@ Employee Name | Department Name  |  Manager Name
 	JOIN
 		dept_emp de
 		ON e.emp_no = de.emp_no
+		AND de.to_date > now()
 	JOIN	
 		(SELECT
 			d.dept_no
@@ -469,16 +465,13 @@ Employee Name | Department Name  |  Manager Name
 		JOIN
 			dept_manager dm
 			ON e.emp_no = dm.emp_no
+			AND dm.to_date > NOW()
 		JOIN
 			departments d
 			ON dm.dept_no = d.dept_no
-		WHERE
-			dm.to_date > NOW()
 		) mn
 		ON
 			de.dept_no = mn.dept_no
-	WHERE
-		de.to_date > now()
 	ORDER BY
 		e.last_name, e.first_name	
 	;
@@ -521,32 +514,31 @@ Bonus Find the highest paid employee in each department.
 		JOIN
 			dept_emp de
 			ON e.emp_no = de.emp_no
+			AND de.to_date > NOW()
 		JOIN
 			salaries s
 			ON e.emp_no = s.emp_no
-		WHERE
-			de.to_date > NOW()
 			AND s.to_date > NOW()
 		GROUP BY
 			de.dept_no
 		) dmxs
 		ON cd.dept_no = dmxs.dept_no
+		AND cs.salary = dmxs.max_sal
 	JOIN 
 		departments d
 		ON cd.dept_no = d.dept_no
-	WHERE cs.salary = dmxs.max_sal
 	ORDER BY
 		d.dept_no, cs.salary desc
 		
 	;
 	/*
-Marketing	d001	145128	Akemi	Warwick	145128
-Finance	d002	142395	Lunjin	Swick	142395
-Human Resources	d003	141953	Yinlin	Flowers	141953
-Production	d004	138273	Youjian	Cronau	138273
-Development	d005	144434	Khosrow	Sgarro	144434
-Quality Management	d006	132103	Shin	Luck	132103
-Sales	d007	158220	Tokuyasu	Pesch	158220
-Research	d008	130211	Ramachenga	Soicher	130211
-Customer Service	d009	144866	Vidya	Hanabata	144866
+Marketing	d001	145128	Akemi	Warwick
+Finance	d002	142395	Lunjin	Swick
+Human Resources	d003	141953	Yinlin	Flowers
+Production	d004	138273	Youjian	Cronau
+Development	d005	144434	Khosrow	Sgarro
+Quality Management	d006	132103	Shin	Luck
+Sales	d007	158220	Tokuyasu	Pesch
+Research	d008	130211	Ramachenga	Soicher
+Customer Service	d009	144866	Vidya	Hanabata
 */

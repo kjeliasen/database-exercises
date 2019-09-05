@@ -165,8 +165,8 @@ Find all the employees that currently have a higher than average salary.
 			AVG(salary) AvgSal
 		FROM
 			salaries
-		WHERE
-			to_date > NOW()
+--		WHERE
+--			to_date > NOW()
 		) avgs
 	WHERE
 		s.salary > avgs.AvgSal
@@ -180,6 +180,32 @@ How many current salaries are within 1 standard deviation of the highest salary?
 
 78 salaries
 	*/
+	SELECT
+		e.first_name
+		,e.last_name
+		,s.salary
+		,avgs.AvgSal
+		,avgs.StdSal
+		,s.salary - avgs.avgsal DifSal
+		,(s.salary - avgs.avgsal) /  avgs.stdsal StdDif
+	
+	FROM
+		employees e
+	JOIN
+		salaries s
+		ON e.emp_no = s.emp_no
+		AND s.to_date > NOW()
+	JOIN
+		(SELECT
+			AVG(salary) AvgSal
+			,STDDEV_POP(salary) StdSal
+		FROM
+			salaries
+--		WHERE
+--			to_date > NOW()
+		) avgs
+	WHERE
+		s.salary > avgs.AvgSal
 	;
 	/*
 
