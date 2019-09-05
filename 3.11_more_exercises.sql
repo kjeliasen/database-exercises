@@ -329,6 +329,15 @@ What is the average life expectancy globally?
 +---------------------+
 1 row in set (0.00 sec)
 	*/
+	SELECT
+		Continent
+		,SUM(Population) Population
+	FROM
+		country
+	GROUP BY
+		Continent
+	ORDER BY
+		Population DESC
 	;
 	/*
 
