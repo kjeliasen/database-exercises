@@ -359,6 +359,7 @@ Which department has the highest average salary?
 	LIMIT 1
 	;
 	/*
+Sales	88852.9695
 */
 
 /*
@@ -371,8 +372,33 @@ Who is the highest paid employee in the Marketing department?
 | Akemi      | Warwick   |
 +------------+-----------+
 	*/
+	SELECT
+		e.first_name
+		,e.last_name
+--		,d.dept_no
+--		,d.dept_name
+--		,s.salary
+	FROM
+		employees e
+	JOIN
+		dept_emp de
+		ON e.emp_no = de.emp_no
+	JOIN
+		departments d
+		ON de.dept_no = d.dept_no
+	JOIN
+		salaries s
+		ON e.emp_no = s.emp_no
+	WHERE
+		de.to_date > NOW()
+		AND s.to_date > NOW()
+		AND d.dept_no = 'd001'
+	ORDER BY 
+		Salary DESC
+	LIMIT 1
 	;
 	/*
+Akemi	Warwick
 */
 
 /*
@@ -385,8 +411,31 @@ Which current department manager has the highest salary?
 | Vishwani   | Minakawa  | 106491 | Marketing |
 +------------+-----------+--------+-----------+
 	*/
+	SELECT
+		e.first_name
+		,e.last_name
+		,s.salary 
+		,d.dept_name
+	FROM
+		employees e
+	JOIN
+		dept_manager dm
+		ON e.emp_no = dm.emp_no
+	JOIN
+		departments d
+		ON dm.dept_no = d.dept_no
+	JOIN
+		salaries s
+		ON e.emp_no = s.emp_no
+	WHERE
+		dm.to_date > NOW()
+		AND s.to_date > NOW()
+	ORDER BY 
+		s.salary desc
+	LIMIT 1
 	;
 	/*
+Vishwani	Minakawa	106491	Marketing
 */
 
 /*
@@ -401,13 +450,104 @@ Employee Name | Department Name  |  Manager Name
 
  .....
 	*/
+	SELECT
+		CONCAT(e.first_name,' ',e.last_name) employee_name
+		,mn.dept_name
+		,mn.dept_mgr
+	FROM
+		employees e
+	JOIN
+		dept_emp de
+		ON e.emp_no = de.emp_no
+	JOIN	
+		(SELECT
+			d.dept_no
+			,d.dept_name
+			,CONCAT(e.first_name,' ',e.last_name) dept_mgr
+		FROM
+			employees e
+		JOIN
+			dept_manager dm
+			ON e.emp_no = dm.emp_no
+		JOIN
+			departments d
+			ON dm.dept_no = d.dept_no
+		WHERE
+			dm.to_date > NOW()
+		) mn
+		ON
+			de.dept_no = mn.dept_no
+	WHERE
+		de.to_date > now()
+	ORDER BY
+		e.last_name, e.first_name	
 	;
 	/*
+Adhemar Aamodt	Development	Leon DasSarma
+Aemilian Aamodt	Sales	Hauke Zhang
+Alagu Aamodt	Development	Leon DasSarma
+Aleksander Aamodt	Production	Oscar Ghazalie
+Alexius Aamodt	Marketing	Vishwani Minakawa
+Alois Aamodt	Human Resources	Karsten Sigstam
+Aluzio Aamodt	Development	Leon DasSarma
+...
 */
-
 /*
 Bonus Find the highest paid employee in each department.
 	*/
+	SELECT
+		d.dept_name
+		,cd.dept_no
+		,dmxs.max_sal
+		,e.first_name
+		,e.last_name
+		,cs.salary
+	FROM
+		employees e
+	JOIN
+		(SELECT
+			*
+		FROM
+			salaries
+		WHERE
+			to_date > now()	
+		) cs
+		ON e.emp_no = cs.emp_no
+	JOIN
+		(SELECT
+			*
+		FROM
+			dept_emp
+		WHERE
+			to_date > now()
+		) cd
+		ON e.emp_no = cd.emp_no
+	JOIN	
+		(SELECT
+			de.dept_no 
+			,MAX(salary) as max_sal
+		FROM
+			employees e
+		JOIN
+			dept_emp de
+			ON e.emp_no = de.emp_no
+		JOIN
+			salaries s
+			ON e.emp_no = s.emp_no
+		WHERE
+			de.to_date > NOW()
+			AND s.to_date > NOW()
+		GROUP BY
+			de.dept_no
+		) dmxs
+		ON cd.dept_no = dmxs.dept_no
+	JOIN 
+		departments d
+		ON cd.dept_no = d.dept_no
+	WHERE cs.salary = dmxs.max_sal
+	ORDER BY
+		d.dept_no, cs.salary desc
+		
 	;
 	/*
 */

@@ -170,12 +170,14 @@ Recall the query the generated usernames for the employees from the last lesson.
 		,username
 	;
 	/*
-aaamo_0359	2
-aaamo_0561	2
-aaamo_1152	2
-aakab_0454	2
-aakab_0659	2
-aakaz_1254	2
+ascha_0357	6
+mscha_0257	6
+sscha_0459	6
+sscha_1259	6
+amatz_1064	5
+fbasa_0360	5
+mbern_0356	5
+mbern_0855	5
 ...
 */
 
