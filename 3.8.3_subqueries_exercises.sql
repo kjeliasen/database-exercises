@@ -181,13 +181,21 @@ How many current salaries are within 1 standard deviation of the highest salary?
 78 salaries
 	*/
 	SELECT
+		SUM(Win1SDev) QualRecs
+		,COUNT(*) CurRecs
+		,CONCAT(100*AVG(Win1SDev), '%') QualPct
+	FROM
+	(
+	SELECT
 		e.first_name
 		,e.last_name
 		,s.salary
-		,avgs.AvgSal
-		,avgs.StdSal
-		,s.salary - avgs.avgsal DifSal
-		,(s.salary - avgs.avgsal) /  avgs.stdsal StdDif
+--		,avgs.AvgSal
+		,avgs.MaxSal
+		,avgs.SDevSal
+		,avgs.MaxSal - s.salary DeltaMax
+		,(avgs.MaxSal - s.salary) /  avgs.SDevSal SDevDiff
+		,CASE WHEN (avgs.MaxSal - s.salary) <= avgs.SDevSal THEN 1 ELSE 0 END Win1SDev
 	
 	FROM
 		employees e
@@ -198,17 +206,19 @@ How many current salaries are within 1 standard deviation of the highest salary?
 	JOIN
 		(SELECT
 			AVG(salary) AvgSal
-			,STDDEV_POP(salary) StdSal
+			,MAX(salary) MaxSal
+			,STDDEV_POP(salary) SDevSal
 		FROM
 			salaries
 --		WHERE
 --			to_date > NOW()
 		) avgs
-	WHERE
-		s.salary > avgs.AvgSal
+	) SDevChk
 	;
 	/*
-
+QualRecs:	78
+CurRecs:	240124
+QualPct:	0.0325%
 */
 
 /*
