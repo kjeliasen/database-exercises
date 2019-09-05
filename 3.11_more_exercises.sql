@@ -109,9 +109,30 @@ What languages are spoken in Santa Monica?
 +------------+------------+
 12 rows in set (0.01 sec)
 	*/
+	SELECT
+		cl.language
+		,cl.percentage
+	FROM countrylanguage cl
+	JOIN city cty
+		on cl.CountryCode = cty.CountryCode
+	WHERE
+		cty.Name = 'Santa Monica'
+	ORDER BY
+		cl.percentage	
 	;
 	/*
-
+Portuguese	0.2
+Vietnamese	0.2
+Japanese	0.2
+Korean	0.3
+Polish	0.3
+Tagalog	0.4
+Italian	0.6
+Chinese	0.6
+French	0.7
+German	0.7
+Spanish	7.5
+English	86.2
 */
 
 /*
@@ -149,9 +170,42 @@ How many different countries are in each region?
 +---------------------------+---------------+
 25 rows in set (0.00 sec)
 	*/
+	SELECT
+		Region
+		,COUNT(*) Num_Countries
+	FROM
+		country
+	GROUP BY
+		Region
+	ORDER BY
+		Num_Countries
 	;
 	/*
-
+Micronesia/Caribbean	1
+British Islands	2
+Baltic Countries	3
+Australia and New Zealand	5
+Melanesia	5
+Southern Africa	5
+Antarctica	5
+North America	5
+Micronesia	7
+Nordic Countries	7
+Northern Africa	7
+Eastern Asia	8
+Central America	8
+Central Africa	9
+Western Europe	9
+Eastern Europe	10
+Polynesia	10
+Southeast Asia	11
+South America	14
+Southern and Central Asia	14
+Southern Europe	15
+Western Africa	17
+Middle East	18
+Eastern Africa	20
+Caribbean	24
 */
 
 /*
