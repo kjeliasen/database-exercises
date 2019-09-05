@@ -501,27 +501,17 @@ Bonus Find the highest paid employee in each department.
 		,dmxs.max_sal
 		,e.first_name
 		,e.last_name
-		,cs.salary
+--		,cs.salary
 	FROM
 		employees e
 	JOIN
-		(SELECT
-			*
-		FROM
-			salaries
-		WHERE
-			to_date > now()	
-		) cs
+		salaries cs
 		ON e.emp_no = cs.emp_no
+		AND cs.to_date > now()	
 	JOIN
-		(SELECT
-			*
-		FROM
-			dept_emp
-		WHERE
-			to_date > now()
-		) cd
+		dept_emp cd
 		ON e.emp_no = cd.emp_no
+		AND cd.to_date > now()
 	JOIN	
 		(SELECT
 			de.dept_no 
@@ -550,4 +540,13 @@ Bonus Find the highest paid employee in each department.
 		
 	;
 	/*
+Marketing	d001	145128	Akemi	Warwick	145128
+Finance	d002	142395	Lunjin	Swick	142395
+Human Resources	d003	141953	Yinlin	Flowers	141953
+Production	d004	138273	Youjian	Cronau	138273
+Development	d005	144434	Khosrow	Sgarro	144434
+Quality Management	d006	132103	Shin	Luck	132103
+Sales	d007	158220	Tokuyasu	Pesch	158220
+Research	d008	130211	Ramachenga	Soicher	130211
+Customer Service	d009	144866	Vidya	Hanabata	144866
 */
