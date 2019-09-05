@@ -25,16 +25,12 @@ USE employees;
 /*
 How much do the current managers of each department get paid, relative to the average salary for the department? Is there any department where the department manager gets paid less than the average salary?
 	*/SELECT
-		d.dept_no
-		,d.dept_name
-		,concat(CASE WHEN smgr.MgrSal > savg.AvgSal THEN '+' ELSE '' END,
+		concat(CASE WHEN smgr.MgrSal > savg.AvgSal THEN '+' ELSE '' END,
 				ROUND(100*((smgr.MgrSal/savg.AvgSal)-1),2),'%') MgrSalIdx
-		,smgr.dept_mgr
 		,smgr.MgrSal
---		,savg.Emps
---		,savg.MinSal
---		,savg.MaxSal
 		,savg.AvgSal
+		,d.dept_name
+		,smgr.dept_mgr
 	FROM
 		departments d
 	JOIN
@@ -57,10 +53,6 @@ How much do the current managers of each department get paid, relative to the av
 	JOIN
 		(SELECT
 			de.dept_no
-			,COUNT(*) as Emps
-			,SUM(salary) as TotSal
-			,MIN(salary) as MinSal
-			,MAX(salary) as MaxSal
 			,AVG(salary) as AvgSal
 		FROM
 			employees e
@@ -79,15 +71,15 @@ How much do the current managers of each department get paid, relative to the av
 	ORDER BY (smgr.MgrSal/savg.AvgSal) DESC
 	;
 	/*
-d001	Marketing	Vishwani Minakawa	106491	80058.8488	+33.02%
-d002	Finance	Isamu Legleitner	83457	78559.9370	+6.23%
-d003	Human Resources	Karsten Sigstam	65400	63921.8998	+2.31%
-d004	Production	Oscar Ghazalie	56654	67843.3020	-16.49%
-d005	Development	Leon DasSarma	74510	67657.9196	+10.13%
-d006	Quality Management	Dung Pesch	72876	65441.9934	+11.36%
-d007	Sales	Hauke Zhang	101987	88852.9695	+14.78%
-d008	Research	Hilary Kambil	79393	67913.3750	+16.90%
-d009	Customer Service	Yuchang Weedman	58745	67285.2302	-12.69%
++33.02%	106491	80058.8488	Marketing	Vishwani Minakawa
++16.90%	79393	67913.3750	Research	Hilary Kambil
++14.78%	101987	88852.9695	Sales	Hauke Zhang
++11.36%	72876	65441.9934	Quality Management	Dung Pesch
++10.13%	74510	67657.9196	Development	Leon DasSarma
++6.23%	83457	78559.9370	Finance	Isamu Legleitner
++2.31%	65400	63921.8998	Human Resources	Karsten Sigstam
+-12.69%	58745	67285.2302	Customer Service	Yuchang Weedman
+-16.49%	56654	67843.3020	Production	Oscar Ghazalie
 */
 
 /*
