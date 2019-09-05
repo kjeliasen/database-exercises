@@ -243,9 +243,42 @@ What is the population for each region?
 +---------------------------+------------+
 25 rows in set (0.00 sec)
 	*/
+	SELECT
+		Region
+		,SUM(Population) Population
+	FROM
+		country
+	GROUP BY
+		Region
+	ORDER BY
+		Population DESC
 	;
 	/*
-
+Eastern Asia	1507328000
+Southern and Central Asia	1490776000
+Southeast Asia	518541000
+South America	345780000
+North America	309632000
+Eastern Europe	307026000
+Eastern Africa	246999000
+Western Africa	221672000
+Middle East	188380700
+Western Europe	183247600
+Northern Africa	173266000
+Southern Europe	144674200
+Central America	135221000
+Central Africa	95652000
+British Islands	63398500
+Southern Africa	46886000
+Caribbean	38140000
+Nordic Countries	24166400
+Australia and New Zealand	22753100
+Baltic Countries	7561900
+Melanesia	6472000
+Polynesia	633050
+Micronesia	543000
+Antarctica	0
+Micronesia/Caribbean	0
 */
 
 /*
@@ -265,9 +298,24 @@ What is the population for each continent?
 +---------------+------------+
 7 rows in set (0.00 sec)
 	*/
+	SELECT
+		Continent
+		,SUM(Population) Population
+	FROM
+		country
+	GROUP BY
+		Continent
+	ORDER BY
+		Population DESC
 	;
 	/*
-
+Asia	3705025700
+Africa	784475000
+Europe	730074600
+North America	482993000
+South America	345780000
+Oceania	30401150
+Antarctica	0
 */
 
 /*
