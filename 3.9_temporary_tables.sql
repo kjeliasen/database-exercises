@@ -138,7 +138,7 @@ Create a temporary table based on the payment table from the sakila database.
 	*/
 --	DROP TABLE payment;
 --	SHOW CREATE TABLE sakila.payment;	
-	CREATE /*TEMPORARY*/ TABLE payment LIKE sakila.payment;
+	CREATE TEMPORARY TABLE payment LIKE sakila.payment;
 	INSERT INTO 
 		payment 
 	SELECT 
