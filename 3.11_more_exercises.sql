@@ -330,17 +330,32 @@ What is the average life expectancy globally?
 1 row in set (0.00 sec)
 	*/
 	SELECT
-		Continent
-		,SUM(Population) Population
+		AVG(LifeExpectancy) AvgLifeExpectancy
 	FROM
 		country
-	GROUP BY
-		Continent
-	ORDER BY
-		Population DESC
 	;
 	/*
-
+66.48604
+*/
+/*
+<><><><><><><><><><><> REAL Average Life Expecancy <><><><><><><><><><><>
+	*/
+	SELECT
+		sum(lifeyears)/sum(pop) AvgLifeExp
+	FROM
+		(SELECT
+			code
+			,continent
+			,region
+			,population pop
+			,LifeExpectancy lifeexp
+			,population * LifeExpectancy lifeyears
+		FROM
+			country
+		) ly
+	;
+	/*
+66.80694
 */
 
 /*
@@ -360,9 +375,55 @@ What is the average life expectancy for each region, each continent? Sort the re
 +---------------+-----------------+
 7 rows in set (0.00 sec)
 	*/
+	SELECT
+		Continent
+		,AVG(LifeExpectancy) AvgLifeExpectancy
+	FROM
+		country
+	GROUP BY
+		Continent
+	ORDER BY
+		AvgLifeExpectancy
 	;
 	/*
-
+Antarctica	NULL
+Africa	52.57193
+Asia	67.44118
+Oceania	69.71500
+South America	70.94615
+North America	72.99189
+Europe	75.14773
+*/
+/*
+<><><><><><><><><><><> REAL Average Life Expecancy <><><><><><><><><><><>
+	*/
+	SELECT
+		continent
+		,sum(ly.lifeyears)/sum(ly.pop) AvgLifeExp
+	FROM
+		(SELECT
+			code
+			,continent
+			,region
+			,population pop
+			,LifeExpectancy lifeexp
+			,population * LifeExpectancy lifeyears
+		FROM
+			country
+		) ly
+	GROUP BY
+		continent
+	ORDER BY
+		AvgLifeExp 
+	;
+	/*
+Antarctica	NULL
+Africa	52.03168
+Asia	67.35223
+South America	67.54434
+Europe	73.82361
+North America	74.91544
+Oceania	75.90188
 */
 
 /*
@@ -398,9 +459,91 @@ What is the average life expectancy for each region, each continent? Sort the re
 +---------------------------+-----------------+
 25 rows in set (0.00 sec)
 	*/
+	SELECT
+		Region
+		,AVG(LifeExpectancy) AvgLifeExpectancy
+	FROM
+		country
+	GROUP BY
+		Region
+	ORDER BY
+		AvgLifeExpectancy
 	;
 	/*
-
+Antarctica	NULL
+Micronesia/Caribbean	NULL
+Southern Africa	44.82000
+Central Africa	50.31111
+Eastern Africa	50.81053
+Western Africa	52.74118
+Southern and Central Asia	61.35000
+Southeast Asia	64.40000
+Northern Africa	65.38571
+Melanesia	67.14000
+Micronesia	68.08571
+Baltic Countries	69.00000
+Eastern Europe	69.93000
+Middle East	70.56667
+Polynesia	70.73333
+South America	70.94615
+Central America	71.02500
+Caribbean	73.05833
+Eastern Asia	75.25000
+North America	75.82000
+Southern Europe	76.52857
+British Islands	77.25000
+Western Europe	78.25556
+Nordic Countries	78.33333
+Australia and New Zealand	78.80000
+*/
+/*
+<><><><><><><><><><><> REAL Average Life Expecancy <><><><><><><><><><><>
+	*/
+	SELECT
+		region
+		,sum(ly.lifeyears)/sum(ly.pop) AvgLifeExp
+	FROM
+		(SELECT
+			code
+			,continent
+			,region
+			,population pop
+			,LifeExpectancy lifeexp
+			,population * LifeExpectancy lifeyears
+		FROM
+			country
+		) ly
+	GROUP BY
+		region
+	ORDER BY
+		AvgLifeExp 
+	;
+	/*
+Micronesia/Caribbean	NULL
+Antarctica	NULL
+Eastern Africa	45.65078
+Central Africa	48.30884
+Southern Africa	50.13138
+Western Africa	50.84283
+Southern and Central Asia	62.28721
+Melanesia	64.51582
+Northern Africa	65.21836
+Southeast Asia	66.81120
+South America	67.54434
+Eastern Europe	68.53857
+Middle East	68.77356
+Baltic Countries	68.95172
+Caribbean	69.19830
+Polynesia	69.63194
+Micronesia	70.55470
+Central America	70.99977
+Eastern Asia	72.37011
+North America	77.32971
+Southern Europe	77.52177
+British Islands	77.64641
+Western Europe	78.05175
+Nordic Countries	78.26374
+Australia and New Zealand	79.44265
 */
 
 /*
