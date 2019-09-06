@@ -9,42 +9,130 @@ USE bayes_814;
 /*
 Using the example from the lesson, re-create the employees_with_departments table.
 	*/
+--	DROP TABLE employees_with_departments
+	;
 	CREATE TABLE employees_with_departments AS
-	SELECT emp_no, first_name, last_name, dept_no, dept_name
-	FROM employees.employees
-	JOIN employees.dept_emp USING(emp_no)
-	JOIN employees.departments USING(dept_no)
+	SELECT 
+		emp_no
+		,first_name
+		,last_name
+		,dept_no
+		,dept_name
+	FROM 
+		employees.employees
+	JOIN 
+		employees.dept_emp 
+		USING(emp_no)
+	JOIN 
+		employees.departments 
+		USING(dept_no)
 	LIMIT 100
 	;
-	SELECT * FROM employees_with_departments;
-	
-	DROP TABLE employees_with_departments;
+	SELECT * FROM employees_with_departments
+	;
 	/*
-
+10011	Mary	Sluis	d009	Customer Service
+10038	Huan	Lortz	d009	Customer Service
+10049	Basil	Tramer	d009	Customer Service
+10060	Breannda	Billingsley	d009	Customer Service
+10088	Jungsoon	Syrzycki	d009	Customer Service
+10098	Sreekrishna	Servieres	d009	Customer Service
+...
 */
 
 /*
 Add a column named full_name to this table. It should be a VARCHAR whose length is the sum of the lengths of the first name and last name columns
 	*/
+	ALTER TABLE 
+		employees_with_departments 
+	ADD 
+		full_name VARCHAR(31)
 	;
 	/*
-
+10011	Mary	Sluis	d009	Customer Service	NULL
+10038	Huan	Lortz	d009	Customer Service	NULL
+10049	Basil	Tramer	d009	Customer Service	NULL
+10060	Breannda	Billingsley	d009	Customer Service	NULL
+10088	Jungsoon	Syrzycki	d009	Customer Service	NULL
+10098	Sreekrishna	Servieres	d009	Customer Service	NULL
+..e
 */
 
-/*Update the table so that full name column contains the correct data
-Remove the first_name and last_name columns from the table.
+/*
+Update the table so that full name column contains the correct data
 	*/
+	UPDATE 
+		employees_with_departments
+	SET
+		full_name = CONCAT(first_name,' ',last_name)
 	;
 	/*
+10011	Mary	Sluis	d009	Customer Service	Mary Sluis
+10038	Huan	Lortz	d009	Customer Service	Huan Lortz
+10049	Basil	Tramer	d009	Customer Service	Basil Tramer
+10060	Breannda	Billingsley	d009	Customer Service	Breannda Billingsley
+10088	Jungsoon	Syrzycki	d009	Customer Service	Jungsoon Syrzycki
+10098	Sreekrishna	Servieres	d009	Customer Service	Sreekrishna Servieres
+10112	Yuichiro	Swick	d009	Customer Service	Yuichiro Swick
+...
+*/
 
+/*
+Remove the first_name and last_name columns from the table.
+	*/
+	ALTER TABLE 
+		employees_with_departments 
+	DROP COLUMN
+		first_name
+	;
+	ALTER TABLE 
+		employees_with_departments 
+	DROP COLUMN
+		last_name
+	;
+	/*
+10011	d009	Customer Service	Mary Sluis
+10038	d009	Customer Service	Huan Lortz
+10049	d009	Customer Service	Basil Tramer
+10060	d009	Customer Service	Breannda Billingsley
+10088	d009	Customer Service	Jungsoon Syrzycki
+10098	d009	Customer Service	Sreekrishna Servieres
+10112	d009	Customer Service	Yuichiro Swick
+...
 */
 
 /*
 What is another way you could have ended up with this same table?
 	*/
+--	DROP TABLE employees_with_departments
+	;
+	CREATE TABLE employees_with_departments AS
+	SELECT 
+		emp_no 
+		,CONCAT(first_name,' ',last_name) full_name 
+		,dept_no
+		,dept_name
+	FROM 
+		employees.employees
+	JOIN 
+		employees.dept_emp 
+		USING(emp_no)
+	JOIN 
+		employees.departments 
+		USING(dept_no)
+	LIMIT 100
+	;
+	SELECT * FROM employees_with_departments
 	;
 	/*
-
+10011	Mary Sluis	d009	Customer Service
+10038	Huan Lortz	d009	Customer Service
+10049	Basil Tramer	d009	Customer Service
+10060	Breannda Billingsley	d009	Customer Service
+10088	Jungsoon Syrzycki	d009	Customer Service
+10098	Sreekrishna Servieres	d009	Customer Service
+10112	Yuichiro Swick	d009	Customer Service
+...
 */
 
 /*
