@@ -25,7 +25,6 @@ Using the example from the lesson, re-create the employees_with_departments tabl
 	JOIN 
 		employees.departments 
 		USING(dept_no)
-	LIMIT 100
 	;
 	SELECT * FROM employees_with_departments
 	;
@@ -118,10 +117,12 @@ What is another way you could have ended up with this same table?
 	JOIN 
 		employees.departments 
 		USING(dept_no)
-	LIMIT 100
+	WHERE
+		dept_emp.to_date > now()
 	;
 	SELECT count(*) FROM employees_with_departments
 	;
+	SELECT full_name, count(*) FROM employees_with_departments GROUP BY full_name HAVING count(*)>1;
 	/*
 10011	Mary Sluis	d009	Customer Service
 10038	Huan Lortz	d009	Customer Service
@@ -146,9 +147,8 @@ Create a temporary table based on the payment table from the sakila database.
 	FROM 
 		sakila.payment
 	;
-	SHOW CREATE TABLE payment
-	;
-	SELECT * FROM payment
+--	SHOW CREATE TABLE payment;
+	SELECT * FROM payment LIMIT 100
 	;
 	/*
 1	1	1	76	2.99	2005-05-25 11:30:37	2006-02-15 22:12:30
@@ -205,6 +205,42 @@ Find out how the average pay in each department compares to the overall average 
 | Sales              | 0.233859335317  | 
 +--------------------+-----------------+
 	*/
+--	DROP TABLE Sal; DROP TABLE SalInfo;
+	CREATE TEMPORARY TABLE Sal LIKE employees.salaries
+	;
+	INSERT INTO Sal SELECT * FROM employees.salaries
+	;
+	ALTER TABLE Sal ADD Zscore FLOAT(53)
+	;
+--	SELECT * FROM Sal
+	;
+	CREATE TEMPORARY TABLE SalInfo
+	SELECT 
+		AVG(Salary) SalAvg
+		,STDDEV(Salary) SalStdDev
+	FROM
+		Sal
+	WHERE
+		to_date > now()
+	;
+	SELECT * FROM SalInfo
+	;
+	UPDATE Sal s JOIN SalInfo si
+	SET
+		s.Zscore = ((s.Salary - si.SalAvg)/(si.SalStdDev))
+	;
+	SELECT 
+		ed.dept_name, 
+		((AVG(s.salary) - MIN(si.SalAvg))/(MIN(si.SalStdDev))) salary_z_score
+	FROM
+		employees_with_departments ed
+	JOIN
+		Sal s
+		USING(emp_no)
+	JOIN
+		SalInfo si
+	GROUP BY
+		ed.dept_name
 	;
 	/*
 
