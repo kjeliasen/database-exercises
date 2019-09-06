@@ -9,8 +9,7 @@ USE bayes_814;
 /*
 Using the example from the lesson, re-create the employees_with_departments table.
 	*/
---	DROP TABLE employees_with_departments
-	;
+--	DROP TABLE employees_with_departments;
 	CREATE TABLE employees_with_departments AS
 	SELECT 
 		emp_no
@@ -104,8 +103,7 @@ Remove the first_name and last_name columns from the table.
 /*
 What is another way you could have ended up with this same table?
 	*/
---	DROP TABLE employees_with_departments
-	;
+--	DROP TABLE employees_with_departments;
 	CREATE TABLE employees_with_departments AS
 	SELECT 
 		emp_no 
@@ -122,7 +120,7 @@ What is another way you could have ended up with this same table?
 		USING(dept_no)
 	LIMIT 100
 	;
-	SELECT * FROM employees_with_departments
+	SELECT count(*) FROM employees_with_departments
 	;
 	/*
 10011	Mary Sluis	d009	Customer Service
@@ -138,17 +136,55 @@ What is another way you could have ended up with this same table?
 /*
 Create a temporary table based on the payment table from the sakila database.
 	*/
+--	DROP TABLE payment;
+--	SHOW CREATE TABLE sakila.payment;	
+	CREATE /*TEMPORARY*/ TABLE payment LIKE sakila.payment;
+	INSERT INTO 
+		payment 
+	SELECT 
+		* 
+	FROM 
+		sakila.payment
+	;
+	SHOW CREATE TABLE payment
+	;
+	SELECT * FROM payment
 	;
 	/*
-
+1	1	1	76	2.99	2005-05-25 11:30:37	2006-02-15 22:12:30
+2	1	1	573	0.99	2005-05-28 10:35:23	2006-02-15 22:12:30
+3	1	1	1185	5.99	2005-06-15 00:54:12	2006-02-15 22:12:30
+4	1	2	1422	0.99	2005-06-15 18:02:53	2006-02-15 22:12:30
+5	1	2	1476	9.99	2005-06-15 21:08:46	2006-02-15 22:12:30
+6	1	1	1725	4.99	2005-06-16 15:18:57	2006-02-15 22:12:30
+7	1	1	2308	4.99	2005-06-18 08:41:48	2006-02-15 22:12:30
+...
 */
 
 /*
 Write the SQL necessary to transform the amount column such that it is stored as an integer representing the number of cents of the payment. For example, 1.99 should become 199.
 	*/
+	ALTER TABLE payment 
+	MODIFY 
+		amount DECIMAL(7,2) NOT NULL
+	;
+	UPDATE payment
+	SET 
+		amount = 100*amount
+	;
+	ALTER TABLE payment MODIFY amount INTEGER NOT NULL;
+	;
+	SELECT * FROM payment
 	;
 	/*
-
+1	1	1	76	299	2005-05-25 11:30:37	2019-09-06 19:25:53
+2	1	1	573	99	2005-05-28 10:35:23	2019-09-06 19:25:53
+3	1	1	1185	599	2005-06-15 00:54:12	2019-09-06 19:25:53
+4	1	2	1422	99	2005-06-15 18:02:53	2019-09-06 19:25:53
+5	1	2	1476	999	2005-06-15 21:08:46	2019-09-06 19:25:53
+6	1	1	1725	499	2005-06-16 15:18:57	2019-09-06 19:25:53
+7	1	1	2308	499	2005-06-18 08:41:48	2019-09-06 19:25:53
+...
 */
 
 /*
