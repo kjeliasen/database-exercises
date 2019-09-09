@@ -1674,9 +1674,22 @@ BETWEEN operator
 Select all columns from the payment table for payments made between midnight 05/25/2005 and 1 second before midnight 05/26/2005.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		payment
+	WHERE
+		payment_date BETWEEN '2005-05-25' AND '2005-05-26 23:59:59'
 	;
 	/*
-
+1	1	1	76	2.99	2005-05-25 11:30:37	2006-02-15 22:12:30
+146	6	2	57	4.99	2005-05-25 08:43:32	2006-02-15 22:12:30
+174	7	2	46	5.99	2005-05-25 06:04:08	2006-02-15 22:12:30
+175	7	2	117	0.99	2005-05-25 19:30:46	2006-02-15 22:12:30
+358	14	1	151	0.99	2005-05-26 00:37:28	2006-02-15 22:12:32
+447	17	2	287	2.99	2005-05-26 19:44:54	2006-02-15 22:12:32
+468	18	1	50	2.99	2005-05-25 06:44:53	2006-02-15 22:12:32
+...
 */
 
 /*
@@ -1684,9 +1697,26 @@ Select the following columns from the film table for films where the length of t
 Hint: total_rental_cost = rental_duration * rental_rate
 	*/
 	USE sakila;
+	SELECT
+		title
+		,description
+		,rental_rate
+		,rental_duration
+		,rental_duration * rental_rate total_rental_cost
+	FROM
+		film
+	WHERE
+		LENGTH(description) BETWEEN 100 AND 120
 	;
 	/*
-
+ACE GOLDFINGER	A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China	4.99	3	14.97
+AFRICAN EGG	A Fast-Paced Documentary of a Pastry Chef And a Dentist who must Pursue a Forensic Psychologist in The Gulf of Mexico	2.99	6	17.94
+ALABAMA DEVIL	A Thoughtful Panorama of a Database Administrator And a Mad Scientist who must Outgun a Mad Scientist in A Jet Boat	2.99	3	8.97
+ALI FOREVER	A Action-Packed Drama of a Dentist And a Crocodile who must Battle a Feminist in The Canadian Rockies	4.99	4	19.96
+ALICE FANTASIA	A Emotional Drama of a A Shark And a Database Administrator who must Vanquish a Pioneer in Soviet Georgia	0.99	6	5.94
+ALONE TRIP	A Fast-Paced Character Study of a Composer And a Dog who must Outgun a Boat in An Abandoned Fun House	0.99	3	2.97
+ALTER VICTORY	A Thoughtful Drama of a Composer And a Feminist who must Meet a Secret Agent in The Canadian Rockies	0.99	6	5.94
+...
 */
 
 /*
@@ -1696,27 +1726,66 @@ LIKE operator
 Select the following columns from the film table for rows where the description begins with "A Thoughtful".
 	*/
 	USE sakila;
+	SELECT
+		title
+		,description
+	FROM
+		film
+	WHERE
+		description LIKE 'A Thoughtful%'
 	;
 	/*
-
+ALABAMA DEVIL	A Thoughtful Panorama of a Database Administrator And a Mad Scientist who must Outgun a Mad Scientist in A Jet Boat
+ALTER VICTORY	A Thoughtful Drama of a Composer And a Feminist who must Meet a Secret Agent in The Canadian Rockies
+ANALYZE HOOSIERS	A Thoughtful Display of a Explorer And a Pastry Chef who must Overcome a Feminist in The Sahara Desert
+ANGELS LIFE	A Thoughtful Display of a Woman And a Astronaut who must Battle a Robot in Berlin
+BLADE POLISH	A Thoughtful Character Study of a Frisbee And a Pastry Chef who must Fight a Dentist in The First Manned Space Station
+CANYON STOCK	A Thoughtful Reflection of a Waitress And a Feminist who must Escape a Squirrel in A Manhattan Penthouse
+CIRCUS YOUTH	A Thoughtful Drama of a Pastry Chef And a Dentist who must Pursue a Girl in A Baloon
+...
 */
 
 /*
 Select the following columns from the film table for rows where the description ends with the word "Boat".
 	*/
 	USE sakila;
+	SELECT
+		title
+		,description
+	FROM
+		film
+	WHERE
+		description LIKE '%Boat'
 	;
 	/*
-
+AIRPLANE SIERRA	A Touching Saga of a Hunter And a Butler who must Discover a Butler in A Jet Boat
+ALABAMA DEVIL	A Thoughtful Panorama of a Database Administrator And a Mad Scientist who must Outgun a Mad Scientist in A Jet Boat
+APACHE DIVINE	A Awe-Inspiring Reflection of a Pastry Chef And a Teacher who must Overcome a Sumo Wrestler in A U-Boat
+BADMAN DAWN	A Emotional Panorama of a Pioneer And a Composer who must Escape a Mad Scientist in A Jet Boat
+BASIC EASY	A Stunning Epistle of a Man And a Husband who must Reach a Mad Scientist in A Jet Boat
+BLINDNESS GUN	A Touching Drama of a Robot And a Dentist who must Meet a Hunter in A Jet Boat
+BRIGHT ENCOUNTERS	A Fateful Yarn of a Lumberjack And a Feminist who must Conquer a Student in A Jet Boat
+...
 */
 
 /*
 Select the following columns from the film table where the description contains the word "Database" and the length of the film is greater than 3 hours.
 	*/
 	USE sakila;
+	SELECT
+		title
+		,length
+		,description
+	FROM
+		film
+	WHERE
+		description LIKE '%Database%'
+		AND length > 180
 	;
 	/*
-
+HAUNTING PIANIST	181	A Fast-Paced Story of a Database Administrator And a Composer who must Defeat a Squirrel in An Abandoned Amusement Park
+YOUNG LANGUAGE	183	A Unbelieveable Yarn of a Boat And a Database Administrator who must Meet a Boy in The First Manned Space Station
+...
 */
 
 /*
@@ -1725,9 +1794,34 @@ LIMIT Operator
 Select all columns from the payment table and only include the first 20 rows.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		payment
+	LIMIT
+		20
 	;
 	/*
-
+1	1	1	76	2.99	2005-05-25 11:30:37	2006-02-15 22:12:30
+2	1	1	573	0.99	2005-05-28 10:35:23	2006-02-15 22:12:30
+3	1	1	1185	5.99	2005-06-15 00:54:12	2006-02-15 22:12:30
+4	1	2	1422	0.99	2005-06-15 18:02:53	2006-02-15 22:12:30
+5	1	2	1476	9.99	2005-06-15 21:08:46	2006-02-15 22:12:30
+6	1	1	1725	4.99	2005-06-16 15:18:57	2006-02-15 22:12:30
+7	1	1	2308	4.99	2005-06-18 08:41:48	2006-02-15 22:12:30
+8	1	2	2363	0.99	2005-06-18 13:33:59	2006-02-15 22:12:30
+9	1	1	3284	3.99	2005-06-21 06:24:45	2006-02-15 22:12:30
+10	1	2	4526	5.99	2005-07-08 03:17:05	2006-02-15 22:12:30
+11	1	1	4611	5.99	2005-07-08 07:33:56	2006-02-15 22:12:30
+12	1	1	5244	4.99	2005-07-09 13:24:07	2006-02-15 22:12:30
+13	1	1	5326	4.99	2005-07-09 16:38:01	2006-02-15 22:12:30
+14	1	1	6163	7.99	2005-07-11 10:13:46	2006-02-15 22:12:30
+15	1	2	7273	2.99	2005-07-27 11:31:22	2006-02-15 22:12:30
+16	1	1	7841	4.99	2005-07-28 09:04:45	2006-02-15 22:12:30
+17	1	2	8033	4.99	2005-07-28 16:18:23	2006-02-15 22:12:30
+18	1	1	8074	0.99	2005-07-28 17:33:39	2006-02-15 22:12:30
+19	1	2	8116	0.99	2005-07-28 19:20:07	2006-02-15 22:12:30
+20	1	2	8326	2.99	2005-07-29 03:58:49	2006-02-15 22:12:30
 */
 
 /*
