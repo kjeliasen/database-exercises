@@ -2539,6 +2539,34 @@ Bonus: Find the film title, customer name, customer phone number, and customer a
 183 rows total, above is just the first 5
 	*/
 	USE sakila;
-	/*
+	SELECT
+		f.title
+		,concat(cust.last_name,', ',cust.first_name) customer_name
+		,a.phone
+	FROM
+		customer cust
+	JOIN
+		address a
+		USING(address_id)
+	JOIN
+		rental r
+		USING(customer_id)
+	JOIN
+		inventory i
+		USING(inventory_id)
+	JOIN
+		film f
+		USING(film_id)
+	WHERE
+		r.return_date IS NULL	
+	
+	;
 
+	/*
+HYDE DOCTOR	KNIGHT, GAIL	904253967161
+HUNGER ROOF	MAULDIN, GREGORY	80303246192
+FRISCO FORREST	JENKINS, LOUISE	800716535041
+TITANS JERK	HOWELL, WILLIE	991802825778
+CONNECTION MICROCOSMOS	DIAZ, EMILY	333339908719
+HAUNTED ANTITRUST	LAWRENCE, LAURIE	956188728558
 */
