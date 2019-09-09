@@ -966,22 +966,66 @@ Use JOIN to display the total amount rung up by each staff member in August of 2
 /*
 List each film and the number of actors who are listed for that film.
 	*/
+	SELECT
+		f.film_id
+		,f.title
+		,count(fa.film_id) actors
+	FROM
+		film f
+	JOIN
+		film_actor fa
+		USING (film_id)
+	GROUP BY
+		f.film_id
 	;
 	/*
-
+1	ACADEMY DINOSAUR	10
+2	ACE GOLDFINGER	4
+3	ADAPTATION HOLES	5
+4	AFFAIR PREJUDICE	5
+5	AFRICAN EGG	5
+6	AGENT TRUMAN	7
+7	AIRPLANE SIERRA	5
+...
 */
 
 /*
 How many copies of the film Hunchback Impossible exist in the inventory system?
 	*/
+	SELECT
+		f.title
+		,COUNT(i.inventory_id) copies
+	FROM
+		film f
+	JOIN
+		inventory i
+		USING (film_id)
+	WHERE
+		f.title = 'Hunchback Impossible'
+	GROUP BY
+		f.film_id
 	;
 	/*
-
+HUNCHBACK IMPOSSIBLE	6
 */
 
 /*
 The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As an unintended consequence, films starting with the letters K and Q have also soared in popularity. Use subqueries to display the titles of movies starting with the letters K and Q whose language is English.
 	*/
+	SELECT
+		f.title
+	FROM
+		film f
+	WHERE
+		f.language_id IN (
+			SELECT 
+				language_id 
+			FROM 
+				language 
+			WHERE 
+				name = 'English'
+		)
+		AND SUBSTR(f.title,1,1) IN ('K', 'Q')
 	;
 	/*
 
