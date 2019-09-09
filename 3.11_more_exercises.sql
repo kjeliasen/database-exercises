@@ -109,6 +109,8 @@ What languages are spoken in Santa Monica?
 +------------+------------+
 12 rows in set (0.01 sec)
 	*/
+/*  <><><><><><><><><> NOTE: The question is unanswerable given the known data, but the spirit of the question is answered as follows <><><><><><><><><>	*/
+	USE world;
 	SELECT
 		cl.language
 		,cl.percentage
@@ -170,6 +172,7 @@ How many different countries are in each region?
 +---------------------------+---------------+
 25 rows in set (0.00 sec)
 	*/
+	USE world;
 	SELECT
 		Region
 		,COUNT(*) Num_Countries
@@ -243,6 +246,7 @@ What is the population for each region?
 +---------------------------+------------+
 25 rows in set (0.00 sec)
 	*/
+	USE world;
 	SELECT
 		Region
 		,SUM(Population) Population
@@ -298,6 +302,7 @@ What is the population for each continent?
 +---------------+------------+
 7 rows in set (0.00 sec)
 	*/
+	USE world;
 	SELECT
 		Continent
 		,SUM(Population) Population
@@ -329,6 +334,7 @@ What is the average life expectancy globally?
 +---------------------+
 1 row in set (0.00 sec)
 	*/
+	USE world;
 	SELECT
 		AVG(LifeExpectancy) AvgLifeExpectancy
 	FROM
@@ -340,6 +346,7 @@ What is the average life expectancy globally?
 /*
 <><><><><><><><><><><> REAL Average Life Expecancy <><><><><><><><><><><>
 	*/
+	USE world;
 	SELECT
 		sum(lifeyears)/sum(pop) AvgLifeExp
 	FROM
@@ -375,6 +382,7 @@ What is the average life expectancy for each region, each continent? Sort the re
 +---------------+-----------------+
 7 rows in set (0.00 sec)
 	*/
+	USE world;
 	SELECT
 		Continent
 		,AVG(LifeExpectancy) AvgLifeExpectancy
@@ -397,6 +405,7 @@ Europe	75.14773
 /*
 <><><><><><><><><><><> REAL Average Life Expecancy <><><><><><><><><><><>
 	*/
+	USE world;
 	SELECT
 		continent
 		,sum(ly.lifeyears)/sum(ly.pop) AvgLifeExp
@@ -459,6 +468,7 @@ Oceania	75.90188
 +---------------------------+-----------------+
 25 rows in set (0.00 sec)
 	*/
+	USE world;
 	SELECT
 		Region
 		,AVG(LifeExpectancy) AvgLifeExpectancy
@@ -499,6 +509,7 @@ Australia and New Zealand	78.80000
 /*
 <><><><><><><><><><><> REAL Average Life Expecancy <><><><><><><><><><><>
 	*/
+	USE world;
 	SELECT
 		region
 		,sum(ly.lifeyears)/sum(ly.pop) AvgLifeExp
@@ -550,6 +561,7 @@ Australia and New Zealand	79.44265
 Bonus
 Find all the countries whose local name is different from the official name
 	*/
+	USE world;
 	SELECT 
 		CONCAT(LocalName,' (',Name,')') Renamed
 	FROM 
@@ -698,15 +710,18 @@ Zhongquo (China)
 */
 
 /*
-	*/
-	;
-	/*
-
-*/
-
-/*
 How many countries have a life expectancy less than x?
 	*/
+	USE world;
+	SET @LE = 85
+	;
+	SELECT
+		@LE TargetLE
+		,COUNT(*) LowerLECtrys
+	FROM
+		country
+	WHERE
+		LifeExpectancy < @LE
 	;
 	/*
 
@@ -715,6 +730,15 @@ How many countries have a life expectancy less than x?
 /*
 What state is city x located in?
 	*/
+	USE world;
+	SET @TCty = 'New York';
+	SELECT
+		@TCty City
+		,District
+	FROM
+		city
+	WHERE
+		city.Name = @TCty
 	;
 	/*
 
@@ -723,6 +747,19 @@ What state is city x located in?
 /*
 What region of the world is city x located in?
 	*/
+	USE world;
+--	SET @TCty = 'New York';
+	SELECT
+		@TCty City
+		,cty.District
+		,ctry.Region
+	FROM
+		city cty
+	JOIN
+		country ctry
+		ON cty.CountryCode = ctry.Code
+	WHERE
+		cty.Name = @TCty
 	;
 	/*
 
@@ -731,6 +768,19 @@ What region of the world is city x located in?
 /*
 What country (use the human readable name) city x located in?
 	*/
+	USE world;
+--	SET @TCty = 'New York';
+	SELECT
+		@TCty City
+		,cty.District
+		,ctry.Name Country
+	FROM
+		city cty
+	JOIN
+		country ctry
+		ON cty.CountryCode = ctry.Code
+	WHERE
+		cty.Name = @TCty
 	;
 	/*
 
@@ -739,6 +789,20 @@ What country (use the human readable name) city x located in?
 /*
 What is the life expectancy in city x?
 	*/
+/*  <><><><><><><><><> NOTE: The question is unanswerable given the known data, but the spirit of the question is answered as follows <><><><><><><><><>	*/
+	USE world;
+--	SET @TCty = 'New York';
+	SELECT
+		@TCty City
+		,cty.District
+		,ctry.LifeExpectancy
+	FROM
+		city cty
+	JOIN
+		country ctry
+		ON cty.CountryCode = ctry.Code
+	WHERE
+		cty.Name = @TCty
 	;
 	/*
 
