@@ -1191,18 +1191,60 @@ TROY QUIGLEY	TROY.QUIGLEY@sakilacustomer.org
 Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as famiy films.
 	*/
 	USE sakila;
+	SELECT
+		f.title
+	FROM
+		film f
+	JOIN
+		film_category fc
+		USING(film_id)
+	JOIN
+		category c
+		USING(category_id)
+	WHERE
+		c.name = 'Family'
 	;
 	/*
-
+AFRICAN EGG
+APACHE DIVINE
+ATLANTIS CAUSE
+BAKED CLEOPATRA
+BANG KWAI
+BEDAZZLED MARRIED
+BILKO ANONYMOUS
+...
 */
 
 /*
 Write a query to display how much business, in dollars, each store brought in.
 	*/
 	USE sakila;
+	SELECT
+		CONCAT(cty.city,', ',a.district) Location
+		,SUM(p.amount) GrossSales
+	FROM
+		store s
+	JOIN
+		staff st
+		USING(store_id)
+	JOIN
+		rental r
+		USING(staff_id)
+	JOIN
+		payment p
+		USING(rental_id)
+	JOIN
+		address a
+		ON s.address_id = a.address_id
+	JOIN
+		city cty
+		USING(city_id)
+	GROUP BY 
+		CONCAT(cty.city,', ',a.district)
 	;
 	/*
-
+Lethbridge, Alberta	33524.62
+Woodridge, QLD	33881.94
 */
 
 /*
