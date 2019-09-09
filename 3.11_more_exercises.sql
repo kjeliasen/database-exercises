@@ -1830,7 +1830,7 @@ Select the payment date and amount columns from the payment table for rows where
 		payment
 	WHERE
 		amount > 5
-	LIMIT 1000 OFFSET 1000
+	LIMIT 1001 OFFSET 999
 	;
 	/*
 2005-08-17 10:59:24	6.99
@@ -1850,7 +1850,7 @@ Select all columns from the customer table, limiting results to those where the 
 		*
 	FROM
 		customer
-	LIMIT 100 OFFSET 101
+	LIMIT 100 OFFSET 100
 	;
 	
 	/*
