@@ -1875,66 +1875,142 @@ ORDER BY statement
 Select all columns from the film table and order rows by the length field in ascending order.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM	
+		film
+	ORDER BY
+		length 
 	;
 	/*
-
+15	ALIEN CENTER	A Brilliant Drama of a Cat And a Mad Scientist who must Battle a Feminist in A MySQL Convention	2006	1	NULL	5	2.99	46	10.99	NC-17	Trailers,Commentaries,Behind the Scenes	2006-02-15 05:03:42
+469	IRON MOON	A Fast-Paced Documentary of a Mad Cow And a Boy who must Pursue a Dentist in A Baloon	2006	1	NULL	7	4.99	46	27.99	PG	Commentaries,Behind the Scenes	2006-02-15 05:03:42
+730	RIDGEMONT SUBMARINE	A Unbelieveable Drama of a Waitress And a Composer who must Sink a Mad Cow in Ancient Japan	2006	1	NULL	3	0.99	46	28.99	PG-13	Commentaries,Deleted Scenes,Behind the Scenes	2006-02-15 05:03:42
+504	KWAI HOMEWARD	A Amazing Drama of a Car And a Squirrel who must Pursue a Car in Soviet Georgia	2006	1	NULL	5	0.99	46	25.99	PG-13	Trailers,Commentaries	2006-02-15 05:03:42
+505	LABYRINTH LEAGUE	A Awe-Inspiring Saga of a Composer And a Frisbee who must Succumb a Pioneer in The Sahara Desert	2006	1	NULL	6	2.99	46	24.99	PG-13	Commentaries,Behind the Scenes	2006-02-15 05:03:42
+784	SHANGHAI TYCOON	A Fast-Paced Character Study of a Crocodile And a Lumberjack who must Build a Husband in An Abandoned Fun House	2006	1	NULL	7	2.99	47	20.99	PG	Commentaries,Deleted Scenes,Behind the Scenes	2006-02-15 05:03:42
+869	SUSPECTS QUILLS	A Emotional Epistle of a Pioneer And a Crocodile who must Battle a Man in A Manhattan Penthouse	2006	1	NULL	4	2.99	47	22.99	PG	Trailers	2006-02-15 05:03:42
+...
 */
 
 /*
 Select all distinct ratings from the film table ordered by rating in descending order.
 	*/
 	USE sakila;
+	SELECT DISTINCT
+		rating
+	FROM
+		film
+	ORDER BY
+		rating DESC
 	;
 	/*
-
+NC-17
+R
+PG-13
+PG
+G
 */
 
 /*
 Select the payment date and amount columns from the payment table for the first 20 payments ordered by payment amount in descending order.
 	*/
 	USE sakila;
+	SELECT
+		payment_date
+		,amount
+	FROM
+		payment
+	ORDER BY
+		amount DESC
+	LIMIT 20
 	;
 	/*
-
+2005-08-21 23:34:00	11.99
+2005-05-25 18:18:19	11.99
+2005-06-17 23:51:21	11.99
+2005-08-23 22:19:33	11.99
+2005-07-06 22:58:31	11.99
+2005-07-29 22:37:41	11.99
+2005-08-21 23:28:58	11.99
+2005-08-22 23:48:56	11.99
+2005-08-02 22:18:13	11.99
+2005-07-07 20:45:51	11.99
+2005-08-22 17:20:17	10.99
+2005-08-01 21:35:01	10.99
+2005-06-21 01:04:35	10.99
+2005-07-29 11:15:36	10.99
+2005-07-31 07:09:55	10.99
+2005-08-20 07:54:54	10.99
+2005-07-29 12:32:20	10.99
+2005-07-28 10:21:52	10.99
+2005-08-20 21:13:58	10.99
+2005-05-26 02:26:23	10.99
 */
 
 /*
 Select the title, description, special features, length, and rental duration columns from the film table for the first 10 films with behind the scenes footage under 2 hours in length and a rental duration between 5 and 7 days, ordered by length in descending order.
 	*/
 	USE sakila;
+	SELECT
+		title
+		,description
+		,special_features
+		,length
+		,rental_duration
+	FROM
+		film
+	WHERE
+		length < 120
+		AND rental_duration BETWEEN 5 AND 7
+		AND special_features LIKE '%Behind the Scenes%' 
+	ORDER BY
+		length DESC
+	LIMIT 10
 	;
 	/*
-
+DUMBO LUST	A Touching Display of a Feminist And a Dentist who must Conquer a Husband in The Gulf of Mexico	Behind the Scenes	119	5
+GAMES BOWFINGER	A Astounding Documentary of a Butler And a Explorer who must Challenge a Butler in A Monastery	Behind the Scenes	119	7
+FIDELITY DEVIL	A Awe-Inspiring Drama of a Technical Writer And a Composer who must Reach a Pastry Chef in A U-Boat	Trailers,Deleted Scenes,Behind the Scenes	118	5
+JAWBREAKER BROOKLYN	A Stunning Reflection of a Boat And a Pastry Chef who must Succumb a A Shark in A Jet Boat	Trailers,Behind the Scenes	118	5
+AFFAIR PREJUDICE	A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank	Commentaries,Behind the Scenes	117	5
+MADIGAN DORADO	A Astounding Character Study of a A Shark And a A Shark who must Discover a Crocodile in The Outback	Deleted Scenes,Behind the Scenes	116	5
+ELEMENT FREDDY	A Awe-Inspiring Reflection of a Waitress And a Squirrel who must Kill a Mad Cow in A Jet Boat	Commentaries,Behind the Scenes	115	6
+GLORY TRACY	A Amazing Saga of a Woman And a Womanizer who must Discover a Cat in The First Manned Space Station	Trailers,Commentaries,Behind the Scenes	115	7
+OSCAR GOLD	A Insightful Tale of a Database Administrator And a Dog who must Face a Madman in Soviet Georgia	Behind the Scenes	115	7
+CONNECTION MICROCOSMOS	A Fateful Documentary of a Crocodile And a Husband who must Face a Husband in The First Manned Space Station	Deleted Scenes,Behind the Scenes	115	6
 */
 
 /*
 JOINs
 
 Select customer first_name/last_name and actor first_name/last_name columns from performing a left join between the customer and actor column on the last_name column in each table. (i.e. customer.last_name = actor.last_name)
-	*/
-	USE sakila;
-	;
-	/*
 
-*/
-
-/*
 Label customer first_name/last_name columns as customer_first_name/customer_last_name
-	*/
-	USE sakila;
-	;
-	/*
 
-*/
-
-/*
 Label actor first_name/last_name columns in a similar fashion.
 returns correct number of records: 599
 	*/
 	USE sakila;
+	SELECT
+		c.first_name cust_first_name
+		,c.last_name cust_last_name
+		,a.first_name actor_first_name
+		,a.last_name actor_last_name
+	FROM
+		customer c
+	LEFT JOIN
+		actor a
+		using(last_name)
 	;
 	/*
-
+MARY	SMITH	NULL	NULL
+PATRICIA	JOHNSON	NULL	NULL
+LINDA	WILLIAMS	SEAN	WILLIAMS
+LINDA	WILLIAMS	MORGAN	WILLIAMS
+LINDA	WILLIAMS	GROUCHO	WILLIAMS
+BARBARA	JONES	NULL	NULL
+...
 */
 
 /*
@@ -1942,9 +2018,27 @@ Select the customer first_name/last_name and actor first_name/last_name columns 
 returns correct number of records: 200
 	*/
 	USE sakila;
+	SELECT
+		c.first_name cust_first_name
+		,c.last_name cust_last_name
+		,a.first_name actor_first_name
+		,a.last_name actor_last_name
+	FROM
+		customer c
+	RIGHT JOIN
+		actor a
+		using(last_name)
 	;
 	/*
-
+NULL	NULL	PENELOPE	GUINESS
+NULL	NULL	NICK	WAHLBERG
+NULL	NULL	ED	CHASE
+JENNIFER	DAVIS	JENNIFER	DAVIS
+NULL	NULL	JOHNNY	LOLLOBRIGIDA
+NULL	NULL	BETTE	NICHOLSON
+NULL	NULL	GRACE	MOSTEL
+NULL	NULL	MATTHEW	JOHANSSON
+..
 */
 
 /*
@@ -1952,9 +2046,26 @@ Select the customer first_name/last_name and actor first_name/last_name columns 
 returns correct number of records: 43
 	*/
 	USE sakila;
+	SELECT
+		c.first_name cust_first_name
+		,c.last_name cust_last_name
+		,a.first_name actor_first_name
+		,a.last_name actor_last_name
+	FROM
+		customer c
+	JOIN
+		actor a
+		using(last_name)
 	;
 	/*
-
+JENNIFER	DAVIS	JENNIFER	DAVIS
+REGINA	BERRY	KARL	BERRY
+LORI	WOOD	UMA	WOOD
+ESTHER	CRAWFORD	RIP	CRAWFORD
+MATTIE	HOFFMAN	WOODY	HOFFMAN
+MARCIA	DEAN	JUDY	DEAN
+HILDA	HOPKINS	NATALIE	HOPKINS
+..
 */
 
 /*
@@ -1962,28 +2073,55 @@ Select the city name and country name columns from the city table, performing a 
 Returns correct records: 600
 	*/
 	USE sakila;
+	SELECT
+		cty.city
+		,ctry.country
+		
+	FROM
+		city cty
+	LEFT JOIN
+		country ctry
+		USING (country_id)
 	;
 	/*
-
+Kabul	Afghanistan
+Batna	Algeria
+Bchar	Algeria
+Skikda	Algeria
+Tafuna	American Samoa
+Benguela	Angola
+Namibe	Angola
+South Hill	Anguilla
+...
 */
 
 /*
 Select the title, description, release year, and language name columns from the film table, performing a left join with the language table to get the "language" column.
-	*/
-	USE sakila;
-	;
-	/*
 
-*/
-
-/*
 Label the language.name column as "language"
 Returns 1000 rows
 	*/
 	USE sakila;
+	SELECT
+		f.title
+		,f.description
+		,f.release_year
+		,l.name language
+	FROM
+		film f
+	JOIN
+		language l
+		USING(language_id)
 	;
 	/*
-
+ACADEMY DINOSAUR	A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies	2006	PG	English
+ACE GOLDFINGER	A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China	2006	G	English
+ADAPTATION HOLES	A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory	2006	NC-17	English
+AFFAIR PREJUDICE	A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank	2006	G	English
+AFRICAN EGG	A Fast-Paced Documentary of a Pastry Chef And a Dentist who must Pursue a Forensic Psychologist in The Gulf of Mexico	2006	G	English
+AGENT TRUMAN	A Intrepid Panorama of a Robot And a Boy who must Escape a Sumo Wrestler in Ancient China	2006	PG	English
+AIRPLANE SIERRA	A Touching Saga of a Hunter And a Butler who must Discover a Butler in A Jet Boat	2006	PG-13	English
+..
 */
 
 /*
@@ -1991,14 +2129,30 @@ Select the first_name, last_name, address, address2, city name, district, and po
 returns correct number of rows: 2
 	*/
 	USE sakila;
+	SELECT
+		st.first_name
+		,st.last_name
+		,a.address
+		,a.address2
+		,cty.city
+		,a.district
+		,a.postal_code
+	FROM
+		staff st
+	LEFT JOIN
+		address a
+		USING(address_id)
+	LEFT JOIN
+		city cty
+		USING(city_id)
 	;
 	/*
-
+Mike	Hillyer	23 Workhaven Lane	NULL	Lethbridge	Alberta	
+Jon	Stephens	1411 Lillydale Drive	NULL	Woodridge	QLD	
 */
 
 /*
-What is the average replacement cost of a film? Does this change depending on the rating of the film?
-
+What is the average replacement cost of a film? 
 
 +-----------------------+
 | AVG(replacement_cost) |
@@ -2008,12 +2162,17 @@ What is the average replacement cost of a film? Does this change depending on th
 1 row in set (2.39 sec)
 	*/
 	USE sakila;
+	SELECT
+		AVG(replacement_cost)
+	FROM
+		film
 	;
 	/*
-
+19.984000
 */
 
 /*
+Does this change depending on the rating of the film?
 
 +--------+-----------------------+
 | rating | AVG(replacement_cost) |
@@ -2027,9 +2186,20 @@ What is the average replacement cost of a film? Does this change depending on th
 5 rows in set (0.09 sec)
 	*/
 	USE sakila;
+	SELECT
+		rating
+		,AVG(replacement_cost)
+	FROM
+		film
+	GROUP BY
+		rating
 	;
 	/*
-
+G	20.124831
+PG	18.959072
+PG-13	20.402556
+R	20.231026
+NC-17	20.137619
 */
 
 /*
@@ -2059,9 +2229,33 @@ How many different films of each genre are in the database?
 16 rows in set (0.06 sec)
 	*/
 	USE sakila;
+	SELECT
+		cat.name genre
+		,count(*) films
+	FROM
+		film_category fc
+	JOIN
+		category cat
+		USING(category_id)
+	GROUP BY cat.name
 	;
 	/*
-
+Action	64
+Animation	66
+Children	60
+Classics	57
+Comedy	58
+Documentary	68
+Drama	62
+Family	69
+Foreign	73
+Games	61
+Horror	56
+Music	51
+New	63
+Sci-Fi	61
+Sports	74
+Travel	57
 */
 
 /*
