@@ -2473,6 +2473,53 @@ What are the sales for each store for each month in 2005?
 2005-08	2	11998.06
 
 <><><><><><><><><> NOT MATCHED YET <><><><><><><><><>
+
+
+<><><><><><><><><> FOUND THE PROBLEM <><><><><><><><><><>
+	SELECT
+		r.rental_id rentid
+		,p.payment_id payid
+		,r.staff_id rstaff
+		,p.staff_id pstaff
+	FROM
+		rental r
+	JOIN
+		payment p
+		USING(rental_id)
+	WHERE
+		p.staff_id <> r.staff_id
+	;
+	RETURNS 8078 ROWS
+	<><><><><><><><><> FOUND THE PROBLEM <><><><><><><><><><>
+	*/
+ 	USE sakila;
+	SELECT 
+		SUBSTR(p.payment_date,1,7) yrmo
+		,i.store_id
+		,SUM(p.amount) Sales
+	FROM
+		inventory i
+	JOIN
+		rental r
+		USING(inventory_id)
+	JOIN
+		payment p
+		USING(rental_id)
+	WHERE
+		p.payment_date LIKE '2005%'
+	GROUP BY 
+		SUBSTR(p.payment_date,1,7)
+		,i.store_id
+	;
+	/*
+2005-05	1	2459.25
+2005-05	2	2364.19
+2005-06	1	4734.79
+2005-06	2	4895.10
+2005-07	1	14308.66
+2005-07	2	14060.25
+2005-08	1	11933.99
+2005-08	2	12136.15
 */
 
 /*
@@ -2492,7 +2539,6 @@ Bonus: Find the film title, customer name, customer phone number, and customer a
 183 rows total, above is just the first 5
 	*/
 	USE sakila;
-	;
 	/*
 
 */
