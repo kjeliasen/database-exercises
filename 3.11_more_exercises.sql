@@ -1028,15 +1028,56 @@ The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As a
 		AND SUBSTR(f.title,1,1) IN ('K', 'Q')
 	;
 	/*
-
+KANE EXORCIST
+KARATE MOON
+KENTUCKIAN GIANT
+KICK SAVANNAH
+KILL BROTHERHOOD
+KILLER INNOCENT
+KING EVOLUTION
+KISS GLORY
+KISSING DOLLS
+KNOCK WARLOCK
+KRAMER CHOCOLATE
+KWAI HOMEWARD
+QUEEN LUKE
+QUEST MUSSOLINI
+QUILLS BULL
 */
 
 /*
 Use subqueries to display all actors who appear in the film Alone Trip.
 	*/
+	SELECT
+		CONCAT(a.first_name,' ',a.last_name) actor
+	FROM
+		actor a
+	WHERE
+		a.actor_id IN (
+			SELECT
+				actor_id
+			FROM
+				film_actor
+			WHERE
+				film_id IN (
+					SELECT
+							film_id
+						FROM
+							film
+						WHERE
+							title = 'Alone Trip'
+				)
+		)
 	;
 	/*
-
+ED CHASE
+KARL BERRY
+UMA WOOD
+WOODY JOLIE
+SPENCER DEPP
+CHRIS DEPP
+LAURENCE BULLOCK
+RENEE BALL
 */
 
 /*
