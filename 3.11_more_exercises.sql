@@ -1251,9 +1251,22 @@ Woodridge, QLD	33881.94
 Write a query to display for each store its store ID, city, and country.
 	*/
 	USE sakila;
+	SELECT
+		s.store_id
+		,cty.city
+		,a.district
+	FROM
+		store s
+	JOIN
+		address a
+		ON s.address_id = a.address_id
+	JOIN
+		city cty
+		USING(city_id)
 	;
 	/*
-
+1	Lethbridge	Alberta
+2	Woodridge	QLD
 */
 
 /*
