@@ -1310,27 +1310,61 @@ SELECT statements
 Select all columns from the actor table.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		actor
 	;
 	/*
-
+1	PENELOPE	GUINESS	2006-02-15 04:34:33
+2	NICK	WAHLBERG	2006-02-15 04:34:33
+3	ED	CHASE	2006-02-15 04:34:33
+4	JENNIFER	DAVIS	2006-02-15 04:34:33
+5	JOHNNY	LOLLOBRIGIDA	2006-02-15 04:34:33
+6	BETTE	NICHOLSON	2006-02-15 04:34:33
+7	GRACE	MOSTEL	2006-02-15 04:34:33
+...
 */
 
 /*
 Select only the last_name column from the actor table.
 	*/
 	USE sakila;
+	SELECT
+		last_name
+	FROM
+		actor
 	;
 	/*
-
+AKROYD
+AKROYD
+AKROYD
+ALLEN
+ALLEN
+ALLEN
+ASTAIRE
+...
 */
 
 /*
 Select only the following columns from the film table.
 	*/
 	USE sakila;
+	SELECT
+		title
+		,description
+	FROM
+		film
 	;
 	/*
-
+ACADEMY DINOSAUR	A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies
+ACE GOLDFINGER	A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China
+ADAPTATION HOLES	A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory
+AFFAIR PREJUDICE	A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank
+AFRICAN EGG	A Fast-Paced Documentary of a Pastry Chef And a Dentist who must Pursue a Forensic Psychologist in The Gulf of Mexico
+AGENT TRUMAN	A Intrepid Panorama of a Robot And a Boy who must Escape a Sumo Wrestler in Ancient China
+AIRPLANE SIERRA	A Touching Saga of a Hunter And a Butler who must Discover a Butler in A Jet Boat
+..
 */
 
 /*
@@ -1339,27 +1373,57 @@ DISTINCT operator
 Select all distinct (different) last names from the actor table.
 	*/
 	USE sakila;
+	SELECT DISTINCT
+		last_name
+	FROM
+		actor
 	;
 	/*
-
+AKROYD
+ALLEN
+ASTAIRE
+BACALL
+BAILEY
+BALE
+BALL
+...
 */
 
 /*
 Select all distinct (different) postal codes from the address table.
 	*/
 	USE sakila;
+	SELECT DISTINCT
+		postal_code
+	FROM
+		address
 	;
 	/*
 
+35200
+17886
+83579
+53561
+42399
+18743
+..
 */
 
 /*
 Select all distinct (different) ratings from the film table.
 	*/
 	USE sakila;
+	SELECT DISTINCT
+		rating
+	FROM
+		film
 	;
 	/*
-
+PG
+G
+NC-17
+PG-13
+R
 */
 
 /*
@@ -1368,9 +1432,25 @@ WHERE clause
 Select the title, description, rating, movie length columns from the films table that last 3 hours or longer.
 	*/
 	USE sakila;
+	SELECT
+		title
+		,description
+		,rating
+		,length
+	FROM
+		film
+	WHERE
+		length >= 180
 	;
 	/*
-
+ALLEY EVOLUTION	A Fast-Paced Drama of a Robot And a Composer who must Battle a Astronaut in New Orleans	NC-17	180
+ANALYZE HOOSIERS	A Thoughtful Display of a Explorer And a Pastry Chef who must Overcome a Feminist in The Sahara Desert	R	181
+BAKED CLEOPATRA	A Stunning Drama of a Forensic Psychologist And a Husband who must Overcome a Waitress in A Monastery	G	182
+CATCH AMISTAD	A Boring Reflection of a Lumberjack And a Feminist who must Discover a Woman in Nigeria	G	183
+CHICAGO NORTH	A Fateful Yarn of a Mad Cow And a Waitress who must Battle a Student in California	PG-13	185
+CONFIDENTIAL INTERVIEW	A Stunning Reflection of a Cat And a Woman who must Find a Astronaut in Ancient Japan	NC-17	180
+CONSPIRACY SPIRIT	A Awe-Inspiring Story of a Student And a Frisbee who must Conquer a Crocodile in An Abandoned Mine Shaft	PG-13	184
+..
 */
 
 /*
@@ -1386,54 +1466,135 @@ Select the payment id, amount, and payment date columns from the payments table 
 Select the primary key, amount, and payment date columns from the payment table for payments made on 05/27/2005.
 	*/
 	USE sakila;
+	SELECT
+		payment_id
+		,amount
+		,payment_date		
+	FROM
+		payment
+	WHERE
+		payment_date LIKE '2005-05-27%'
 	;
 	/*
-
+33	4.99	2005-05-27 00:09:24
+60	1.99	2005-05-27 17:17:09
+231	4.99	2005-05-27 05:01:28
+359	9.99	2005-05-27 04:34:41
+418	3.99	2005-05-27 03:07:10
+493	2.99	2005-05-27 03:22:30
+545	3.99	2005-05-27 20:11:47
+579	4.99	2005-05-27 07:49:43
+..
 */
 
 /*
 Select all columns from the customer table for rows that have a last names beginning with S and a first names ending with N.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		customer
+	WHERE
+		last_name LIKE 'S%'
+		AND first_name LIKE '%N'
 	;
 	/*
-
+347	2	RYAN	SALISBURY	RYAN.SALISBURY@sakilacustomer.org	352	1	2006-02-14 22:04:37	2006-02-15 04:57:20
+471	1	DEAN	SAUER	DEAN.SAUER@sakilacustomer.org	476	1	2006-02-14 22:04:37	2006-02-15 04:57:20
+353	1	JONATHAN	SCARBOROUGH	JONATHAN.SCARBOROUGH@sakilacustomer.org	358	1	2006-02-14 22:04:37	2006-02-15 04:57:20
+321	1	KEVIN	SCHULER	KEVIN.SCHULER@sakilacustomer.org	326	1	2006-02-14 22:04:37	2006-02-15 04:57:20
+375	2	AARON	SELBY	AARON.SELBY@sakilacustomer.org	380	1	2006-02-14 22:04:37	2006-02-15 04:57:20
+462	2	WARREN	SHERROD	WARREN.SHERROD@sakilacustomer.org	467	1	2006-02-14 22:04:37	2006-02-15 04:57:20
+126	1	ELLEN	SIMPSON	ELLEN.SIMPSON@sakilacustomer.org	130	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+178	2	MARION	SNYDER	MARION.SNYDER@sakilacustomer.org	182	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+228	2	ALLISON	STANLEY	ALLISON.STANLEY@sakilacustomer.org	232	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+561	2	IAN	STILL	IAN.STILL@sakilacustomer.org	567	1	2006-02-14 22:04:37	2006-02-15 04:57:20
+105	1	DAWN	SULLIVAN	DAWN.SULLIVAN@sakilacustomer.org	109	1	2006-02-14 22:04:36	2006-02-15 04:57:20
 */
 
 /*
 Select all columns from the customer table for rows where the customer is inactive or has a last name beginning with "M".
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		customer
+	WHERE
+		active = 0
+		AND last_name LIKE 'M%'
 	;
 	/*
-
+16	2	SANDRA	MARTIN	SANDRA.MARTIN@sakilacustomer.org	20	0	2006-02-14 22:04:36	2006-02-15 04:57:20
+169	2	ERICA	MATTHEWS	ERICA.MATTHEWS@sakilacustomer.org	173	0	2006-02-14 22:04:36	2006-02-15 04:57:20
 */
 
 /*
 Select all columns from the category table for rows where the primary key is greater than 4 and the name field begins with either C, S or T.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		category
+	WHERE
+		category_id > 4
+		AND SUBSTR(name,1,1) IN ('C', 'S', 'T')
 	;
 	/*
-
+5	Comedy	2006-02-15 04:46:27
+14	Sci-Fi	2006-02-15 04:46:27
+15	Sports	2006-02-15 04:46:27
 */
 
 /*
 Select all columns minus the password column from the staff table for rows that contain a password.
 	*/
 	USE sakila;
+	SELECT
+		staff_id
+		,first_name
+		,last_name
+		,address_id
+		,email
+		,store_id
+		,active
+		,username
+		,last_update
+	FROM
+		staff
+	WHERE
+		password IS NOT NULL
 	;
+/*	NOTE: LEFT OUT PICTURE COLUMN FOR clarity   */	
 	/*
-
+1	Mike	Hillyer	3	Mike.Hillyer@sakilastaff.com	1	1	Mike	2006-02-15 03:57:16
 */
 
 /*
 Select all columns minus the password column from the staff table for rows that do not contain a password.
 	*/
 	USE sakila;
+	USE sakila;
+	SELECT
+		staff_id
+		,first_name
+		,last_name
+		,address_id
+		,email
+		,store_id
+		,active
+		,username
+		,last_update
+	FROM
+		staff
+	WHERE
+		password IS NULL
 	;
+/*	NOTE: LEFT OUT PICTURE COLUMN FOR clarity   */	
 	/*
-
+2	Jon	Stephens	4	Jon.Stephens@sakilastaff.com	2	1	Jon	2006-02-15 03:57:16
 */
 
 /*
