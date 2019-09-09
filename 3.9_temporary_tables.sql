@@ -205,12 +205,13 @@ Find out how the average pay in each department compares to the overall average 
 | Sales              | 0.233859335317  | 
 +--------------------+-----------------+
 	*/
---	DROP TABLE Sal; DROP TABLE SalInfo;
+--	DROP TABLE Sal; DROP TABLE SalInfo; DROP TABLE EmpDept
 	CREATE TEMPORARY TABLE Sal LIKE employees.salaries
 	;
 	INSERT INTO Sal SELECT * FROM employees.salaries
+	WHERE to_date > now()
 	;
-	ALTER TABLE Sal ADD Zscore FLOAT(53)
+--	ALTER TABLE Sal ADD Zscore FLOAT(53)
 	;
 --	SELECT * FROM Sal
 	;
@@ -223,12 +224,19 @@ Find out how the average pay in each department compares to the overall average 
 	WHERE
 		to_date > now()
 	;
+	CREATE TEMPORARY TABLE EmpDep LIKE employees.dept_emp
+	;
+	INSERT INTO EmpDep SELECT * FROM employees.dept_emp
+	WHERE to_date > now()
+	;
+	SELECT * FROM EmpDep
+	;
 	SELECT * FROM SalInfo
 	;
-	UPDATE Sal s JOIN SalInfo si
-	SET
-		s.Zscore = ((s.Salary - si.SalAvg)/(si.SalStdDev))
-	;
+--	UPDATE Sal s JOIN SalInfo si
+--	SET
+--		s.Zscore = ((s.Salary - si.SalAvg)/(si.SalStdDev))
+--	;
 	SELECT 
 		ed.dept_name, 
 		((AVG(s.salary) - MIN(si.SalAvg))/(MIN(si.SalStdDev))) salary_z_score
@@ -239,6 +247,8 @@ Find out how the average pay in each department compares to the overall average 
 		USING(emp_no)
 	JOIN
 		SalInfo si
+	WHERE
+		ed.to_date > now()
 	GROUP BY
 		ed.dept_name
 	;
