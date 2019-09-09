@@ -1706,7 +1706,7 @@ Hint: total_rental_cost = rental_duration * rental_rate
 	FROM
 		film
 	WHERE
-		LENGTH(description) BETWEEN 100 AND 120
+		CHAR_LENGTH(description) BETWEEN 100 AND 120
 	;
 	/*
 ACE GOLDFINGER	A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China	4.99	3	14.97
@@ -2274,9 +2274,29 @@ What are the 5 frequently rented films?
 5 rows in set (0.11 sec)
 	*/
 	USE sakila;
+	SELECT
+		f.title
+		,count(*) rentals
+	FROM
+		film f
+	JOIN
+		inventory i
+		USING(film_id)
+	JOIN
+		rental r
+		USING(inventory_id)
+	GROUP BY
+		f.title
+	ORDER BY
+		rentals DESC
+	LIMIT 5
 	;
 	/*
-
+BUCKET BROTHERHOOD	34
+ROCKETEER MOTHER	33
+GRIT CLOCKWORK	32
+RIDGEMONT SUBMARINE	32
+JUGGLER HARDLY	32
 */
 
 /*
@@ -2295,9 +2315,32 @@ What are the most most profitable films (in terms of gross revenue)?
 5 rows in set (0.17 sec)
 	*/
 	USE sakila;
+	SELECT
+		f.title
+		,SUM(p.amount) revenues
+	FROM
+		film f
+	JOIN
+		inventory i
+		USING(film_id)
+	JOIN
+		rental r
+		USING(inventory_id)
+	JOIN
+		payment p
+		USING(rental_id)
+	GROUP BY
+		f.title
+	ORDER BY
+		revenues DESC
+	LIMIT 5
 	;
 	/*
-
+TELEGRAPH VOYAGE	231.73
+WIFE TURN	223.69
+ZORRO ARK	214.69
+GOODFELLAS SALUTE	209.69
+SATURDAY LAMBS	204.72
 */
 
 /*
@@ -2312,9 +2355,25 @@ Who is the best customer?
 1 row in set (0.12 sec)
 	*/
 	USE sakila;
+	SELECT
+		CONCAT(cust.last_name,', ',cust.first_name) cust_name
+		,SUM(p.amount) revenues
+	FROM
+		customer cust
+	JOIN
+		rental r
+		USING(customer_id)
+	JOIN
+		payment p
+		USING(rental_id)
+	GROUP BY
+		CONCAT(cust.last_name,', ',cust.first_name)
+	ORDER BY
+		revenues DESC
+	LIMIT 1
 	;
 	/*
-
+SEAL, KARL	221.55
 */
 
 /*
@@ -2333,9 +2392,33 @@ Who are the most popular actors (that have appeared in the most films)?
 5 rows in set (0.07 sec)
 	*/
 	USE sakila;
+	SELECT
+		CONCAT(a.last_name,', ',a.first_name) actor_name
+		,COUNT(*) movies
+	FROM
+		film_actor fa
+	JOIN
+		(SELECT DISTINCT 
+			actor_id
+			,first_name
+			,last_name
+		FROM
+			actor
+		) a
+		USING(actor_id)
+	GROUP BY
+		CONCAT(a.last_name,', ',a.first_name) 
+		,a.actor_id
+	ORDER BY
+		movies DESC
+	LIMIT 5
 	;
 	/*
-
+DEGENERES, GINA	42
+TORN, WALTER	41
+KEITEL, MARY	40
+CARREY, MATTHEW	39
+KILMER, SANDRA	37
 */
 
 /*
@@ -2357,9 +2440,39 @@ What are the sales for each store for each month in 2005?
 8 rows in set (0.14 sec)
 	*/
 	USE sakila;
+	SELECT 
+		SUBSTR(p.payment_date,1,7) yrmo
+		,s.store_id
+		,SUM(p.amount) Sales
+	FROM
+		store s
+	JOIN
+		staff st
+		USING(store_id)
+	JOIN
+		rental r
+		USING(staff_id)
+	JOIN
+		payment p
+		USING(rental_id)
+	WHERE
+		p.payment_date LIKE '2005%'
+	GROUP BY 
+		SUBSTR(p.payment_date,1,7)
+		,s.store_id
+
 	;
 	/*
+2005-05	1	2340.42
+2005-05	2	2483.02
+2005-06	1	4832.37
+2005-06	2	4797.52
+2005-07	1	14061.58
+2005-07	2	14307.33
+2005-08	1	12072.08
+2005-08	2	11998.06
 
+<><><><><><><><><> NOT MATCHED YET <><><><><><><><><>
 */
 
 /*
