@@ -550,9 +550,151 @@ Australia and New Zealand	79.44265
 Bonus
 Find all the countries whose local name is different from the official name
 	*/
+	SELECT 
+		CONCAT(LocalName,' (',Name,')') Renamed
+	FROM 
+		country
+	WHERE
+		Name <> LocalName
+		AND LocalName <> '–'
+	ORDER BY
+		LocalName
 	;
 	/*
-
+Afganistan/Afqanestan (Afghanistan)
+Al-Bahrayn (Bahrain)
+Al-Imarat al-´Arabiya al-Muttahida (United Arab Emirates)
+Al-Jaza’ir/Algérie (Algeria)
+Al-Kuwayt (Kuwait)
+Al-Maghrib (Morocco)
+Al-Urdunn (Jordan)
+Al-Yaman (Yemen)
+Al-´Arabiya as-Sa´udiya (Saudi Arabia)
+Al-´Iraq (Iraq)
+Amerika Samoa (American Samoa)
+As-Sahrawiya (Western Sahara)
+As-Sudan (Sudan)
+Azärbaycan (Azerbaijan)
+Balgarija (Bulgaria)
+Belau/Palau (Palau)
+België/Belgique (Belgium)
+Bharat/India (India)
+Bosna i Hercegovina (Bosnia and Herzegovina)
+Bouvetøya (Bouvet Island)
+Brasil (Brazil)
+British Virgin Islands (Virgin Islands, British)
+Brunei Darussalam (Brunei)
+Burundi/Uburundi (Burundi)
+Cabo Verde (Cape Verde)
+Cameroun/Cameroon (Cameroon)
+Centrafrique/Bê-Afrîka (Central African Republic)
+Choson Minjujuui In´min Konghwaguk (Bukhan) (North Korea)
+Danmark (Denmark)
+Deutschland (Germany)
+Dhivehi Raajje/Maldives (Maldives)
+Djibouti/Jibuti (Djibouti)
+Druk-Yul (Bhutan)
+Eesti (Estonia)
+Elláda (Greece)
+Ertra (Eritrea)
+España (Spain)
+Filastin (Palestine)
+Føroyar (Faroe Islands)
+Guiné-Bissau (Guinea-Bissau)
+Guinea Ecuatorial (Equatorial Guinea)
+Guinée (Guinea)
+Guyane française (French Guiana)
+Haïti/Dayti (Haiti)
+Hajastan (Armenia)
+Heard and McDonald Islands (Heard Island and McDonald Islands)
+Hrvatska (Croatia)
+Ireland/Éire (Ireland)
+Ísland (Iceland)
+Italia (Italy)
+Jugoslavija (Yugoslavia)
+Kalaallit Nunaat/Grønland (Greenland)
+Kâmpuchéa (Cambodia)
+kaNgwane (Swaziland)
+Komori/Comores (Comoros)
+Kýpros/Kibris (Cyprus)
+Lao (Laos)
+Latvija (Latvia)
+Le Gabon (Gabon)
+Libiya (Libyan Arab Jamahiriya)
+Lietuva (Lithuania)
+Lubnan (Lebanon)
+Luxembourg/Lëtzebuerg (Luxembourg)
+Macau/Aomen (Macao)
+Madagasikara/Madagascar (Madagascar)
+Magyarország (Hungary)
+Makedonija (Macedonia)
+Marshall Islands/Majol (Marshall Islands)
+Micronesia (Micronesia, Federated States of)
+Misr (Egypt)
+Moçambique (Mozambique)
+Mongol Uls (Mongolia)
+Muritaniya/Mauritanie (Mauritania)
+Myanma Pye (Myanmar)
+Naoero/Nauru (Nauru)
+Nederland (Netherlands)
+Nederlandse Antillen (Netherlands Antilles)
+New Zealand/Aotearoa (New Zealand)
+Nihon/Nippon (Japan)
+Norge (Norway)
+Nouvelle-Calédonie (New Caledonia)
+Papua New Guinea/Papua Niugini (Papua New Guinea)
+Perú/Piruw (Peru)
+Pilipinas (Philippines)
+Polska (Poland)
+Polynésie française (French Polynesia)
+Prathet Thai (Thailand)
+Qazaqstan (Kazakstan)
+República Dominicana (Dominican Republic)
+République Démocratique du Congo (Congo, The Democratic Republic of the)
+Rossija (Russian Federation)
+Rwanda/Urwanda (Rwanda)
+Saint-Pierre-et-Miquelon (Saint Pierre and Miquelon)
+Sakartvelo (Georgia)
+Santa Sede/Città del Vaticano (Holy See (Vatican City State))
+São Tomé e Príncipe (Sao Tome and Principe)
+Schweiz/Suisse/Svizzera/Svizra (Switzerland)
+Sénégal/Sounougal (Senegal)
+Sesel/Seychelles (Seychelles)
+Shqipëria (Albania)
+Singapore/Singapura/Xinjiapo/Singapur (Singapore)
+Slovenija (Slovenia)
+Slovensko (Slovakia)
+Soomaaliya (Somalia)
+Sri Lanka/Ilankai (Sri Lanka)
+Suomi (Finland)
+Suriya (Syria)
+Svalbard og Jan Mayen (Svalbard and Jan Mayen)
+Sverige (Sweden)
+Taehan Min’guk (Namhan) (South Korea)
+Tchad/Tshad (Chad)
+Terres australes françaises (French Southern territories)
+The Bahamas (Bahamas)
+The Cook Islands (Cook Islands)
+The Gambia (Gambia)
+The Turks and Caicos Islands (Turks and Caicos Islands)
+Timor Timur (East Timor)
+Toçikiston (Tajikistan)
+Tunis/Tunisie (Tunisia)
+Türkiye (Turkey)
+Türkmenostan (Turkmenistan)
+T’ai-wan (Taiwan)
+Ukrajina (Ukraine)
+Uzbekiston (Uzbekistan)
+Viêt Nam (Vietnam)
+Virgin Islands of the United States (Virgin Islands, U.S.)
+Wallis-et-Futuna (Wallis and Futuna)
+Xianggang/Hong Kong (Hong Kong)
+YeItyop´iya (Ethiopia)
+Yisra’el/Isra’il (Israel)
+Zhongquo (China)
+Österreich (Austria)
+´Uman (Oman)
+¸esko (Czech Republic)
 */
 
 /*
@@ -604,24 +746,55 @@ What is the life expectancy in city x?
 
 /*
 Sakila Database
+*/
+	USE sakila;
+/*
 Display the first and last names in all lowercase of all the actors.
 	*/
+	SELECT 
+		LOWER(CONCAT(first_name,' ',last_name)) names
+	FROM
+		actor
+	ORDER BY
+		last_name
+		,first_name
 	;
 	/*
-
+christian akroyd
+debbie akroyd
+kirsten akroyd
+cuba allen
+kim allen
+meryl allen
+...
 */
 
 /*
 You need to find the ID number, first name, and last name of an actor, of whom you know only the first name, "Joe." What is one query would you could use to obtain this information?
 	*/
+	SELECT
+		actor_id
+		,first_name
+		,last_name
+	FROM
+		actor
+	WHERE
+		first_name = 'Joe'
 	;
 	/*
-
+9	JOE	SWANK
 */
 
 /*
 Find all actors whose last name contain the letters "gen":
 	*/
+	SELECT
+		first_name
+		,last_name
+	FROM
+		actor
+	WHERE
+		last_name LIKE '%gen%'
 	;
 	/*
 
@@ -630,54 +803,161 @@ Find all actors whose last name contain the letters "gen":
 /*
 Find all actors whose last names contain the letters "li". This time, order the rows by last name and first name, in that order.
 	*/
+	SELECT
+		first_name
+		,last_name
+	FROM
+		actor
+	WHERE
+		last_name LIKE '%li%'
+	ORDER BY
+		last_name
+		,first_name
 	;
 	/*
-
+GREG	CHAPLIN
+WOODY	JOLIE
+AUDREY	OLIVIER
+CUBA	OLIVIER
+GROUCHO	WILLIAMS
+MORGAN	WILLIAMS
+SEAN	WILLIAMS
+BEN	WILLIS
+GENE	WILLIS
+HUMPHREY	WILLIS
 */
 
 /*
 Using IN, display the country_id and country columns for the following countries: Afghanistan, Bangladesh, and China:
 	*/
+	SELECT
+		country_id
+		,country
+	FROM
+		country
+	WHERE
+		country IN ('Afghanistan','Bangladesh','China')
 	;
 	/*
-
+1	Afghanistan
+12	Bangladesh
+23	China
 */
 
 /*
 List the last names of all the actors, as well as how many actors have that last name.
 	*/
+	SELECT
+		last_name
+		,count(*) actors
+	FROM
+		actor
+	GROUP BY
+		last_name
 	;
 	/*
-
+AKROYD	3
+ALLEN	3
+ASTAIRE	1
+BACALL	1
+BAILEY	2
+BALE	1
+...
 */
 
 /*
 List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors
 	*/
+	SELECT
+		last_name
+		,count(*) actors
+	FROM
+		actor
+	GROUP BY
+		last_name
+	HAVING
+		actors > 1
 	;
 	/*
-
+AKROYD	3
+ALLEN	3
+BAILEY	2
+BENING	2
+BERRY	3
+BOLGER	2
+...
 */
 
 /*
 You cannot locate the schema of the address table. Which query would you use to re-create it?
 	*/
-	;
+	SHOW CREATE TABLE address;
 	/*
-
+CREATE TABLE `address` (
+	`address_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+	`address` varchar(50) NOT NULL,
+	`address2` varchar(50) DEFAULT NULL,
+	`district` varchar(20) NOT NULL,
+	`city_id` smallint(5) unsigned NOT NULL,
+	`postal_code` varchar(10) DEFAULT NULL,
+	`phone` varchar(20) NOT NULL,
+	`location` geometry NOT NULL,
+	`last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`address_id`),
+	KEY `idx_fk_city_id` (`city_id`),
+	SPATIAL KEY `idx_location` (`location`),
+	CONSTRAINT `fk_address_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=606 DEFAULT CHARSET=utf8
 */
 
 /*
 Use JOIN to display the first and last names, as well as the address, of each staff member.
 	*/
+	SELECT
+		s.first_name
+		,s.last_name
+		,a.address
+		,a.address2
+		,c.city
+		,a.district
+		,a.postal_code
+	FROM
+		staff s
+	JOIN	
+		address a
+		ON s.address_id = a.address_id
+	JOIN
+		city c
+		ON a.city_id = c.city_id
 	;
 	/*
-
+Mike	Hillyer	23 Workhaven Lane	NULL	Lethbridge	Alberta	
+Jon	Stephens	1411 Lillydale Drive	NULL	Woodridge	QLD	
 */
 
 /*
 Use JOIN to display the total amount rung up by each staff member in August of 2005.
 	*/
+	SELECT
+		CONCAT(s.first_name,' ',s.last_name) staff_meember
+		,SUM(p.amount) total_sales
+		,COUNT(r.rental_id) rentals
+--		,COUNT(p.payment_id) payments
+--		,AVG(p.payment_date - r.rental_date) DaysPayable
+--		,MIN(r.rental_date) MinDate
+--		,MAX(r.rental_date) MaxDate
+	FROM
+		rental r
+	JOIN
+		staff s
+		ON r.staff_id = s.staff_id
+	LEFT JOIN
+		payment p
+		ON r.rental_id = p.rental_id
+	WHERE
+		r.rental_date LIKE '2005-08%'
+	GROUP BY
+		s.staff_id
 	;
 	/*
 
