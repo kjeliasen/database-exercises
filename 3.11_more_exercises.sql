@@ -1828,18 +1828,45 @@ Select all columns from the payment table and only include the first 20 rows.
 Select the payment date and amount columns from the payment table for rows where the payment amount is greater than 5, and only select rows whose zero-based index in the result set is between 1000-2000.
 	*/
 	USE sakila;
+	SELECT
+		payment_date
+		,amount
+	FROM
+		payment
+	WHERE
+		amount > 5
+	LIMIT 1000 OFFSET 1000
 	;
 	/*
-
+2005-08-17 10:59:24	6.99
+2005-08-18 04:15:43	6.99
+2005-08-19 11:31:41	6.99
+2005-08-19 16:54:12	8.99
+2005-08-20 06:00:03	5.99
+2005-08-21 15:00:49	9.99
+..
 */
 
 /*
 Select all columns from the customer table, limiting results to those where the zero-based index is between 101-200.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		customer
+	LIMIT 100 OFFSET 101
 	;
+	
 	/*
-
+102	1	CRYSTAL	FORD	CRYSTAL.FORD@sakilacustomer.org	106	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+103	1	GLADYS	HAMILTON	GLADYS.HAMILTON@sakilacustomer.org	107	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+104	1	RITA	GRAHAM	RITA.GRAHAM@sakilacustomer.org	108	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+105	1	DAWN	SULLIVAN	DAWN.SULLIVAN@sakilacustomer.org	109	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+106	1	CONNIE	WALLACE	CONNIE.WALLACE@sakilacustomer.org	110	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+107	1	FLORENCE	WOODS	FLORENCE.WOODS@sakilacustomer.org	111	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+108	1	TRACY	COLE	TRACY.COLE@sakilacustomer.org	112	1	2006-02-14 22:04:36	2006-02-15 04:57:20
+...
 */
 
 /*
