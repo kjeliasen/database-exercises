@@ -194,61 +194,52 @@ Find out how the average pay in each department compares to the overall average 
 +--------------------+-----------------+
 | dept_name          | salary_z_score  | 
 +--------------------+-----------------+
-| Customer Service   | -0.065641701345 | 
-| Development        | -0.060466339473 | 
-| Finance            | 0.090924841177  | 
-| Human Resources    | -0.112346685678 | 
-| Marketing          | 0.111739523864  | 
-| Production         | -0.057892021023 | 
-| Quality Management | -0.091237862268 | 
-| Research           | -0.056918950432 | 
-| Sales              | 0.233859335317  | 
+| Customer Service   | -0.273079       | 
+| Development        | -0.251549       | 
+| Finance            |  0.378261       | 
+| Human Resources    | -0.467379       | 
+| Marketing          |  0.464854       | 
+| Production         | -0.24084        | 
+| Quality Management | -0.379563       | 
+| Research           | -0.236791       | 
+| Sales              |  0.972891       | 
 +--------------------+-----------------+
 	*/
 	USE Bayes_814;
---	DROP TABLE Sal; DROP TABLE SalInfo; DROP TABLE EmpDept
---	CREATE TABLE Dept LIKE employees.departments
---	INSERT INTO Dept SELECT * FROM employees.departments
+--	DROP TABLE Sal; DROP TABLE SalInfo; DROP TABLE EmpDept;
+	CREATE /*TEMPORARY*/ TABLE EmpDept LIKE employees.dept_emp
+	;
 	CREATE /*TEMPORARY*/ TABLE Sal LIKE employees.salaries
-	;
-	INSERT INTO Sal SELECT * FROM employees.salaries
---	WHERE to_date > now()
-	;
---	ALTER TABLE Sal ADD Zscore FLOAT(53)
-	;
---	SELECT * FROM Sal
 	;
 	CREATE /*TEMPORARY*/ TABLE SalInfo (
 		`SalAvg` decimal(14,4) DEFAULT NULL,
 		`SalStdDev` double DEFAULT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1
 	;
-	DELETE * FROM SalInfo
+--	CREATE TABLE Dept LIKE employees.departments;
+--	INSERT INTO Dept SELECT * FROM employees.departments;
+
+--	DELETE FROM Sal;
+	INSERT INTO Sal SELECT * FROM employees.salaries
+	WHERE to_date > now()
 	;
+
+--	DELETE  FROM SalInfo;
 	INSERT INTO SalInfo (
 		SELECT
 			AVG(Salary) SalAvg
 			,STDDEV(Salary) SalStdDev
 		FROM
 			Sal
---		WHERE
---			to_date > now()
+		WHERE
+			to_date > now()
 		)
 	;
-
-	CREATE /*TEMPORARY*/ TABLE EmpDept LIKE employees.dept_emp
-	;
+	
+--	DELETE FROM EmpDept;
 	INSERT INTO EmpDept SELECT * FROM employees.dept_emp
 	WHERE to_date > now()
 	;
---	SELECT * FROM EmpDept
-	;
---	SELECT * FROM SalInfo
-	;
---	UPDATE Sal s JOIN SalInfo si
---	SET
---		s.Zscore = ((s.Salary - si.SalAvg)/(si.SalStdDev))
---	;
 	SELECT 
 		ed.dept_no 
 		,d.dept_name
@@ -262,45 +253,21 @@ Find out how the average pay in each department compares to the overall average 
 		SalInfo si
 	JOIN Dept d
 		USING(dept_no)
-	WHERE
-		ed.to_date > now()
+--	WHERE
+--		ed.to_date > now()
 	GROUP BY
 		ed.dept_no
 	ORDER BY
 		d.dept_name
 	;
 	/*
-
-*/
-
-/*
-What is the average salary for an employee based on the number of years they have been with the company? Express your answer in terms of the Z-score of salary.
-
-Since this data is a little older, scale the years of experience by subtracting the minumum from every row.
-
-
-+--------------------+-----------------+
-| years_with_company | salary_z_score  | 
-+--------------------+-----------------+
-| 0                  | -0.120126024615 | 
-| 1                  | -0.191233079206 | 
-| 2                  | -0.171645037241 | 
-| 3                  | -0.156153559059 | 
-| 4                  | -0.131917218919 | 
-| 5                  | -0.115528505398 | 
-| 6                  | -0.092492800591 | 
-| 7                  | -0.068094840473 | 
-| 8                  | -0.051630370714 | 
-| 9                  | -0.030267415113 | 
-| 10                 | -0.006900796634 | 
-| 11                 | 0.01443330816   | 
-| 12                 | 0.030400295561  | 
-| 13                 | 0.054596508615  | 
-| 14                 | 0.075180034951  | 
-| 15                 | 0.095192818408  | 
-+--------------------+-----------------+
-	*/
-	;
-	/*
-
+d009	Customer Service	-0.27308011705841645
+d005	Development	-0.2515497730056467
+d002	Finance	0.3782620706994039
+d003	Human Resources	-0.4673804203330646
+d001	Marketing	0.46485452398158145
+d004	Production	-0.2408401911381295
+d006	Quality Management	-0.3795642942936943
+d008	Research	-0.23679205968320088
+d007	Sales	0.9728927285775602
 */
