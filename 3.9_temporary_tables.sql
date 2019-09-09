@@ -205,52 +205,69 @@ Find out how the average pay in each department compares to the overall average 
 | Sales              | 0.233859335317  | 
 +--------------------+-----------------+
 	*/
+	USE Bayes_814;
 --	DROP TABLE Sal; DROP TABLE SalInfo; DROP TABLE EmpDept
-	CREATE TEMPORARY TABLE Sal LIKE employees.salaries
+--	CREATE TABLE Dept LIKE employees.departments
+--	INSERT INTO Dept SELECT * FROM employees.departments
+	CREATE /*TEMPORARY*/ TABLE Sal LIKE employees.salaries
 	;
 	INSERT INTO Sal SELECT * FROM employees.salaries
-	WHERE to_date > now()
+--	WHERE to_date > now()
 	;
 --	ALTER TABLE Sal ADD Zscore FLOAT(53)
 	;
 --	SELECT * FROM Sal
 	;
-	CREATE TEMPORARY TABLE SalInfo
-	SELECT 
-		AVG(Salary) SalAvg
-		,STDDEV(Salary) SalStdDev
-	FROM
-		Sal
-	WHERE
-		to_date > now()
+	CREATE /*TEMPORARY*/ TABLE SalInfo (
+		`SalAvg` decimal(14,4) DEFAULT NULL,
+		`SalStdDev` double DEFAULT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1
 	;
-	CREATE TEMPORARY TABLE EmpDep LIKE employees.dept_emp
+	DELETE * FROM SalInfo
 	;
-	INSERT INTO EmpDep SELECT * FROM employees.dept_emp
+	INSERT INTO SalInfo (
+		SELECT
+			AVG(Salary) SalAvg
+			,STDDEV(Salary) SalStdDev
+		FROM
+			Sal
+--		WHERE
+--			to_date > now()
+		)
+	;
+
+	CREATE /*TEMPORARY*/ TABLE EmpDept LIKE employees.dept_emp
+	;
+	INSERT INTO EmpDept SELECT * FROM employees.dept_emp
 	WHERE to_date > now()
 	;
-	SELECT * FROM EmpDep
+--	SELECT * FROM EmpDept
 	;
-	SELECT * FROM SalInfo
+--	SELECT * FROM SalInfo
 	;
 --	UPDATE Sal s JOIN SalInfo si
 --	SET
 --		s.Zscore = ((s.Salary - si.SalAvg)/(si.SalStdDev))
 --	;
 	SELECT 
-		ed.dept_name, 
-		((AVG(s.salary) - MIN(si.SalAvg))/(MIN(si.SalStdDev))) salary_z_score
+		ed.dept_no 
+		,d.dept_name
+		,((AVG(s.salary) - MIN(si.SalAvg))/(MIN(si.SalStdDev))) salary_z_score
 	FROM
-		employees_with_departments ed
+		EmpDept ed
 	JOIN
 		Sal s
 		USING(emp_no)
 	JOIN
 		SalInfo si
+	JOIN Dept d
+		USING(dept_no)
 	WHERE
 		ed.to_date > now()
 	GROUP BY
-		ed.dept_name
+		ed.dept_no
+	ORDER BY
+		d.dept_name
 	;
 	/*
 
