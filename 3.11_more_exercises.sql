@@ -1603,27 +1603,69 @@ IN operator
 Select the phone and district columns from the address table for addresses in California, England, Taipei, or West Java.
 	*/
 	USE sakila;
+	SELECT
+		phone
+		,district
+	FROM
+		address
+	WHERE
+		district IN ('California','England','Taipei','West Java')
+		
 	;
 	/*
-
+838635286649	California
+517338314235	California
+949312333307	England
+525255540978	Taipei
+171822533480	California
+720998247660	England
+824370924746	California
+...
 */
 
 /*
 Select the payment id, amount, and payment date columns from the payment table for payments made on 05/25/2005, 05/27/2005, and 05/29/2005. (Use the IN operator and the DATE function, instead of the AND operator as in previous exercises.)
 	*/
 	USE sakila;
+	SELECT
+		payment_id
+		,amount
+		,payment_date
+	FROM
+		payment
+	WHERE
+		DATE(payment_date) IN ('2005-05-25', '2005-05-27', '2005-05-29')
 	;
 	/*
-
+1	2.99	2005-05-25 11:30:37
+33	4.99	2005-05-27 00:09:24
+60	1.99	2005-05-27 17:17:09
+61	2.99	2005-05-29 22:43:55
+108	0.99	2005-05-29 07:25:16
+146	4.99	2005-05-25 08:43:32
+174	5.99	2005-05-25 06:04:08
+...
 */
 
 /*
 Select all columns from the film table for films rated G, PG-13 or NC-17.
 	*/
 	USE sakila;
+	SELECT
+		*
+	FROM
+		film
+	WHERE
+		rating IN ('G', 'PG-13', 'NC-17')
 	;
 	/*
-
+2	ACE GOLDFINGER	A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China	2006	1	NULL	3	4.99	48	12.99	G	Trailers,Deleted Scenes	2006-02-15 05:03:42
+3	ADAPTATION HOLES	A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory	2006	1	NULL	7	2.99	50	18.99	NC-17	Trailers,Deleted Scenes	2006-02-15 05:03:42
+4	AFFAIR PREJUDICE	A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank	2006	1	NULL	5	2.99	117	26.99	G	Commentaries,Behind the Scenes	2006-02-15 05:03:42
+5	AFRICAN EGG	A Fast-Paced Documentary of a Pastry Chef And a Dentist who must Pursue a Forensic Psychologist in The Gulf of Mexico	2006	1	NULL	6	2.99	130	22.99	G	Deleted Scenes	2006-02-15 05:03:42
+7	AIRPLANE SIERRA	A Touching Saga of a Hunter And a Butler who must Discover a Butler in A Jet Boat	2006	1	NULL	6	4.99	62	28.99	PG-13	Trailers,Deleted Scenes	2006-02-15 05:03:42
+9	ALABAMA DEVIL	A Thoughtful Panorama of a Database Administrator And a Mad Scientist who must Outgun a Mad Scientist in A Jet Boat	2006	1	NULL	3	2.99	114	21.99	PG-13	Trailers,Deleted Scenes	2006-02-15 05:03:42
+...
 */
 
 /*
