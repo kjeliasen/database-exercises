@@ -1273,9 +1273,35 @@ Write a query to display for each store its store ID, city, and country.
 List the top five genres in gross revenue in descending order. (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
 	*/
 	USE sakila;
+	SELECT
+		cat.name Category
+		,SUM(p.amount) GrossRev
+	FROM
+		category cat
+	JOIN 
+		film_category fc
+		USING(category_id)
+	JOIN
+		inventory i
+		USING(film_id)
+	JOIN
+		rental r
+		USING(inventory_id)
+	JOIN
+		payment p
+		USING(rental_id)
+	GROUP BY
+		cat.name
+	ORDER BY
+		GrossRev DESC
+	LIMIT 5
 	;
 	/*
-
+Sports	5314.21
+Sci-Fi	4756.98
+Animation	4656.30
+Drama	4587.39
+Comedy	4383.58
 */
 
 /*
