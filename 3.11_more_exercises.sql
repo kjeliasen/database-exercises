@@ -1013,28 +1013,23 @@ Use JOIN to display the total amount rung up by each staff member in August of 2
 	*/
 	USE sakila;
 	SELECT
-		CONCAT(s.first_name,' ',s.last_name) staff_meember
+		s.staff_id
+		,CONCAT(s.first_name,' ',s.last_name) staff_member
 		,SUM(p.amount) total_sales
-		,COUNT(r.rental_id) rentals
---		,COUNT(p.payment_id) payments
---		,AVG(p.payment_date - r.rental_date) DaysPayable
---		,MIN(r.rental_date) MinDate
---		,MAX(r.rental_date) MaxDate
+		,COUNT(p.payment_id) payments
 	FROM
-		rental r
-	JOIN
 		staff s
-		ON r.staff_id = s.staff_id
-	LEFT JOIN
+	JOIN
 		payment p
-		ON r.rental_id = p.rental_id
+		ON p.staff_id = s.staff_id
 	WHERE
-		r.rental_date LIKE '2005-08%'
+		p.payment_date LIKE '2005-08%'
 	GROUP BY
 		s.staff_id
 	;
 	/*
-
+1	Mike Hillyer	11853.65	2835
+2	Jon Stephens	12218.48	2852
 */
 
 /*
@@ -1225,11 +1220,11 @@ Write a query to display how much business, in dollars, each store brought in.
 	FROM
 		store s
 	JOIN
-		staff st
+		inventory i
 		USING(store_id)
 	JOIN
 		rental r
-		USING(staff_id)
+		USING(inventory_id)
 	JOIN
 		payment p
 		USING(rental_id)
@@ -1243,8 +1238,8 @@ Write a query to display how much business, in dollars, each store brought in.
 		CONCAT(cty.city,', ',a.district)
 	;
 	/*
-Lethbridge, Alberta	33524.62
-Woodridge, QLD	33881.94
+Lethbridge, Alberta	33679.79
+Woodridge, QLD	33726.77
 */
 
 /*
