@@ -206,25 +206,47 @@ Find out how the average pay in each department compares to the overall average 
 +--------------------+-----------------+
 	*/
 	USE Bayes_814;
---	DROP TABLE Sal; DROP TABLE SalInfo; DROP TABLE EmpDept;
-	CREATE /*TEMPORARY*/ TABLE EmpDept LIKE employees.dept_emp
+		
+	DROP TABLE IF EXISTS Dept;
+	CREATE TEMPORARY TABLE IF NOT EXISTS Dept 
+		LIKE employees.departments;
+	INSERT INTO Dept 
+	SELECT 
+		* 
+	FROM 
+		employees.departments
 	;
-	CREATE /*TEMPORARY*/ TABLE Sal LIKE employees.salaries
+	
+	DROP TABLE IF EXISTS EmpDept;
+	CREATE TEMPORARY TABLE IF NOT EXISTS EmpDept 
+		LIKE employees.dept_emp;
+	INSERT INTO EmpDept 
+	SELECT 
+		* 
+	FROM 
+		employees.dept_emp
+	WHERE 
+		to_date > now()
 	;
-	CREATE /*TEMPORARY*/ TABLE SalInfo (
+
+	DROP TABLE IF EXISTS Sal; 
+	CREATE TEMPORARY TABLE IF NOT EXISTS Sal 
+		LIKE employees.salaries;
+	INSERT INTO Sal 
+	SELECT 
+		* 
+	FROM 
+		employees.salaries
+	WHERE 
+		to_date > now()
+	;
+	
+	DROP TABLE IF EXISTS SalInfo; 
+	CREATE TABLE IF NOT EXISTS SalInfo (
 		`SalAvg` decimal(14,4) DEFAULT NULL,
 		`SalStdDev` double DEFAULT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1
 	;
---	CREATE TABLE Dept LIKE employees.departments;
---	INSERT INTO Dept SELECT * FROM employees.departments;
-
---	DELETE FROM Sal;
-	INSERT INTO Sal SELECT * FROM employees.salaries
-	WHERE to_date > now()
-	;
-
---	DELETE  FROM SalInfo;
 	INSERT INTO SalInfo (
 		SELECT
 			AVG(Salary) SalAvg
@@ -235,11 +257,7 @@ Find out how the average pay in each department compares to the overall average 
 			to_date > now()
 		)
 	;
-	
---	DELETE FROM EmpDept;
-	INSERT INTO EmpDept SELECT * FROM employees.dept_emp
-	WHERE to_date > now()
-	;
+
 	SELECT 
 		ed.dept_no 
 		,d.dept_name
@@ -253,8 +271,6 @@ Find out how the average pay in each department compares to the overall average 
 		SalInfo si
 	JOIN Dept d
 		USING(dept_no)
---	WHERE
---		ed.to_date > now()
 	GROUP BY
 		ed.dept_no
 	ORDER BY
